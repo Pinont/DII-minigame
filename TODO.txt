@@ -1,0 +1,4 @@
+Minigame:
+- Syntax Code Collection Challenge
+- Copy Cat Coding
+- Logic problem solving
