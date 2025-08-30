@@ -71,18 +71,31 @@ function addToTerminal(content) {
 // Load challenge data from JSON
 async function loadChallenge() {
   try {
-    const response = await fetch('../resource/debug_challenge.json');
+    console.log('Loading challenge data from: ./src/resource/debug_challenge.json');
+    const response = await fetch('./src/resource/debug_challenge.json');
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
     const data = await response.json();
+    console.log('Challenge data loaded successfully:', data);
     
     // Get the first challenge (can be extended to support multiple challenges)
-    currentChallenge = data.quiz.questions[2];
+    currentChallenge = data.debug_challenge.questions[1];
     
     // Load the code file
-    const codeResponse = await fetch(`../resource/${currentChallenge.codepath}`);
+    console.log('Loading code file from:', `./src/resource/${currentChallenge.codepath}`);
+    const codeResponse = await fetch(`./src/resource/${currentChallenge.codepath}`);
+    
+    if (!codeResponse.ok) {
+      throw new Error(`HTTP error loading code file! status: ${codeResponse.status}`);
+    }
+    
     const codeContent = await codeResponse.text();
     
     // Update the page with challenge data
-    updateChallengeInfo(data.quiz, currentChallenge);
+    updateChallengeInfo(data.debug_challenge, currentChallenge);
     
     // Initialize Monaco Editor with the loaded code
     initializeEditor(codeContent);
