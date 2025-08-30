@@ -1,0 +1,44 @@
+{
+  "quiz": {
+    "title": "Debug Challenge Quiz",
+    "description": "Test your debugging skills!",
+    "questions": [
+      {
+        "id": 1,
+        "question": "What is the output of console.log(typeof null)?",
+        "options": [
+          "null",
+          "object",
+          "undefined",
+          "string"
+        ],
+        "correctAnswer": 1,
+        "explanation": "In JavaScript, typeof null returns 'object' due to a historical bug that has been kept for compatibility."
+      },
+      {
+        "id": 2,
+        "question": "Which method is used to add an element to the end of an array?",
+        "options": [
+          "append()",
+          "push()",
+          "add()",
+          "insert()"
+        ],
+        "correctAnswer": 1,
+        "explanation": "The push() method adds one or more elements to the end of an array."
+      },
+      {
+        "id": 3,
+        "question": "What does the '===' operator do in JavaScript?",
+        "options": [
+          "Assigns a value",
+          "Compares values with type coercion",
+          "Compares values without type coercion",
+          "Checks if variable exists"
+        ],
+        "correctAnswer": 2,
+        "explanation": "The '===' operator compares both value and type without performing type coercion."
+      }
+    ]
+  }
+}

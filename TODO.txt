@@ -1,4 +1,20 @@
+User roles:
+- Client
+- Host (Staff)
+
+Player roles:
+- Project designer
+- UX/UI designer
+- Fronted-end
+- Backend-end
+- QA Tester
+- Data Scientist
+
 Minigame:
 - Syntax Code Collection Challenge
 - Copy Cat Coding
 - Logic problem solving
+
+Userflow:
+Staff Host game -> pick games -> send to firestore -> host game -> client join
+Game Start -> client play selected game -> stop -> find winner of each round
