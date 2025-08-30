@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Challenge - Interactive Code Editor</title>
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@latest/min/vs/loader.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1e1e1e;
+            color: #ffffff;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .timer-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .timer {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .timer.warning {
+            background: rgba(255, 193, 7, 0.3);
+            border-color: #ffc107;
+            animation: pulse 1s infinite;
+        }
+
+        .timer.danger {
+            background: rgba(220, 53, 69, 0.3);
+            border-color: #dc3545;
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .challenge-title {
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .main-container {
+            display: flex;
+            height: calc(100vh - 70px);
+        }
+
+        .left-panel {
+            width: 300px;
+            background-color: #252526;
+            border-right: 1px solid #3e3e42;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .challenge-info {
+            margin-bottom: 20px;
+        }
+
+        .challenge-info h3 {
+            color: #569cd6;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .challenge-info p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #cccccc;
+        }
+
+        .challenge-requirements {
+            background: rgba(76, 175, 80, 0.1);
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .challenge-requirements h4 {
+            color: #4caf50;
+            margin-bottom: 10px;
+        }
+
+        .challenge-requirements ul {
+            padding-left: 20px;
+            color: #cccccc;
+        }
+
+        .challenge-requirements li {
+            margin-bottom: 5px;
+        }
+
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .editor-container {
+            flex: 1;
+            position: relative;
+        }
+
+        #editor {
+            width: 100%;
+            height: 100%;
+        }
+
+        .terminal-section {
+            height: 250px;
+            background-color: #1e1e1e;
+            border-top: 1px solid #3e3e42;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .terminal-header {
+            background-color: #2d2d30;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #3e3e42;
+        }
+
+        .terminal-title {
+            font-weight: bold;
+            color: #ffffff;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 10px rgba(40, 167, 69, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .terminal-content {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            line-height: 1.4;
+            background-color: #0c0c0c;
+            scroll-behavior: smooth;
+        }
+
+        .terminal-output {
+            color: #ffffff;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .terminal-error {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 5px;
+            border-radius: 3px;
+            margin: 5px 0;
+        }
+
+        .terminal-success {
+            color: #51cf66;
+            background: rgba(81, 207, 102, 0.1);
+            padding: 5px;
+            border-radius: 3px;
+            margin: 5px 0;
+        }
+
+        .terminal-log {
+            color: #74c0fc;
+            margin: 2px 0;
+        }
+
+        .clear-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        .clear-btn:hover {
+            background: #5a6268;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 12px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #28a745;
+        }
+
+        .status-dot.running {
+            background-color: #ffc107;
+            animation: blink 1s infinite;
+        }
+
+        .status-dot.error {
+            background-color: #dc3545;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .hint-section {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 0 5px 5px 0;
+        }
+
+        .hint-section h4 {
+            color: #ffc107;
+            margin-bottom: 10px;
+        }
+
+        .hint-section p {
+            color: #cccccc;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+            }
+            
+            .left-panel {
+                width: 100%;
+                height: 200px;
+            }
+            
+            .terminal-section {
+                height: 200px;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="timer-section">
+            <div class="timer" id="timer">⏱️ 00:00</div>
+            <div class="status-indicator">
+                <div class="status-dot" id="status-dot"></div>
+                <span id="status-text">Ready</span>
+            </div>
+        </div>
+        <div class="challenge-title">🐛 Debug Challenge</div>
+    </div>
+
+    <div class="main-container">
+        <div class="left-panel">
+            <div class="challenge-info">
+                <h3>🎯 Challenge Description</h3>
+                <p>Fix the <code>calculateSum</code> function to correctly calculate the sum of all numbers in an array. The function has a bug that causes it to fail on certain test cases.</p>
+                
+                <div class="challenge-requirements">
+                    <h4>📋 Expected Behavior:</h4>
+                    <ul>
+                        <li><code>calculateSum([1,2,3])</code> → <strong>6</strong></li>
+                        <li><code>calculateSum([])</code> → <strong>0</strong></li>
+                        <li><code>calculateSum([10])</code> → <strong>10</strong></li>
+                        <li><code>calculateSum([-1,-2])</code> → <strong>-3</strong></li>
+                    </ul>
+                </div>
+
+                <div class="hint-section">
+                    <h4>💡 Debugging Tips:</h4>
+                    <p>The bug is in the loop condition. Think about array indices - what's the valid range for accessing array elements?</p>
+                </div>
+
+                <div class="challenge-info">
+                    <h3>📊 Test Results</h3>
+                    <p><strong>Status:</strong> <span id="test-status">Not Started</span></p>
+                    <p><strong>Tests Passed:</strong> <span id="tests-passed">0/6</span></p>
+                    <p><strong>Success Rate:</strong> <span id="success-rate">0%</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="editor-container">
+                <div id="editor"></div>
+            </div>
+            
+            <div class="terminal-section">
+                <div class="terminal-header">
+                    <div class="terminal-title">🖥️ Console Output</div>
+                    <div>
+                        <button class="submit-btn" id="submit-btn" onclick="runCode()">▶️ Run Code</button>
+                        <button class="clear-btn" onclick="clearTerminal()">Clear</button>
+                    </div>
+                </div>
+                <div class="terminal-content">
+                    <div class="terminal-output" id="terminal-output">
+                        <div class="terminal-log">Click "Run Code" to execute your JavaScript code.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let editor;
+        let startTime = null;
+        let timerInterval = null;
+
+        // Function to auto-scroll terminal to bottom
+        function scrollTerminalToBottom() {
+            const terminalContent = document.querySelector('.terminal-content');
+            terminalContent.scrollTop = terminalContent.scrollHeight;
+        }
+
+        // Function to add output to terminal and auto-scroll
+        function addToTerminal(content) {
+            const terminalOutput = document.getElementById('terminal-output');
+            terminalOutput.innerHTML += content;
+            scrollTerminalToBottom();
+        }
+
+        // Initialize Monaco Editor
+        require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@latest/min/vs' }});
+        require(['vs/editor/editor.main'], function () {
+            editor = monaco.editor.create(document.getElementById('editor'), {
+                value: `// Debug Challenge: Fix the bugs in this code
+// The function should calculate the sum of all numbers in an array
+function calculateSum(arr) {
+    let sum = 0;
+    for (let i = 0; i <= arr.length; i++) {
+        sum += arr[i];
+    }
+    return sum;
+}`,
+                language: 'javascript',
+                theme: 'vs-dark',
+                fontSize: 14,
+                minimap: { enabled: false },
+                scrollBeyondLastLine: false,
+                automaticLayout: true,
+                wordWrap: 'on'
+            });
+
+            // Start timer when user starts editing
+            editor.onDidChangeModelContent(() => {
+                if (!startTime) {
+                    startTimer();
+                }
+            });
+        });
+
+        function startTimer() {
+            startTime = Date.now();
+            timerInterval = setInterval(updateTimer, 1000);
+            updateStatus('In Progress', 'running');
+        }
+
+        function updateTimer() {
+            if (!startTime) return;
+            
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            const timeString = `⏱️ ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            
+            const timerElement = document.getElementById('timer');
+            timerElement.textContent = timeString;
+            
+            // Change timer color based on time
+            timerElement.className = 'timer';
+            if (elapsed > 300) { // 5 minutes
+                timerElement.classList.add('danger');
+            } else if (elapsed > 180) { // 3 minutes
+                timerElement.classList.add('warning');
+            }
+        }
+
+        function updateStatus(text, type = 'ready') {
+            document.getElementById('status-text').textContent = text;
+            document.getElementById('status-dot').className = `status-dot ${type}`;
+        }
+
+        function runCode() {
+            const code = editor.getValue();
+            const terminalOutput = document.getElementById('terminal-output');
+            const submitBtn = document.getElementById('submit-btn');
+            
+            // Disable submit button temporarily
+            submitBtn.disabled = true;
+            updateStatus('Running...', 'running');
+            
+            // Add running message with timestamp
+            const timestamp = new Date().toLocaleTimeString();
+            addToTerminal(`\n<div class="terminal-log">[${timestamp}] Running automated tests...</div>`);
+            
+            setTimeout(() => {
+                try {
+                    // Test cases for the calculateSum function
+                    const testCases = [
+                        { input: [1, 2, 3, 4, 5], expected: 15, description: "Basic array [1,2,3,4,5]" },
+                        { input: [], expected: 0, description: "Empty array []" },
+                        { input: [10], expected: 10, description: "Single element [10]" },
+                        { input: [-1, -2, -3], expected: -6, description: "Negative numbers [-1,-2,-3]" },
+                        { input: [0, 0, 0], expected: 0, description: "Array with zeros [0,0,0]" },
+                        { input: [2.5, 3.7, 1.8], expected: 8, description: "Decimal numbers [2.5,3.7,1.8]" }
+                    ];
+                    
+                    // Execute the user's code in a safe environment
+                    let calculateSum;
+                    try {
+                        // Create a completely isolated execution environment
+                        // This prevents variable redeclaration errors on multiple runs
+                        const iframe = document.createElement('iframe');
+                        iframe.style.display = 'none';
+                        document.body.appendChild(iframe);
+                        
+                        const iframeWindow = iframe.contentWindow;
+                        
+                        // Execute code in iframe context
+                        iframeWindow.eval(code);
+                        calculateSum = iframeWindow.calculateSum;
+                        
+                        // Clean up iframe
+                        document.body.removeChild(iframe);
+                        
+                        // Check if calculateSum function exists
+                        if (typeof calculateSum !== 'function') {
+                            throw new Error("calculateSum function not found or not properly defined");
+                        }
+                        
+                    } catch (error) {
+                        addToTerminal(`<div class="terminal-error">❌ Syntax Error: ${error.message}</div>`);
+                        updateStatus('Syntax Error', 'error');
+                        submitBtn.disabled = false;
+                        return;
+                    }
+                    
+                    // Run test cases
+                    let passedTests = 0;
+                    let totalTests = testCases.length;
+                    
+                    addToTerminal(`<div class="terminal-log">🧪 Running ${totalTests} test cases...</div>`);
+                    addToTerminal(`<div class="terminal-log">═══════════════════════════════════════════════</div>`);
+                    
+                    testCases.forEach((testCase, index) => {
+                        try {
+                            const result = calculateSum(testCase.input);
+                            const passed = result === testCase.expected;
+                            
+                            if (passed) {
+                                passedTests++;
+                                addToTerminal(`<div class="terminal-success">✅ Test ${index + 1}: ${testCase.description}</div>`);
+                                addToTerminal(`<div class="terminal-log">   Input: [${testCase.input.join(', ')}]</div>`);
+                                addToTerminal(`<div class="terminal-log">   Expected: ${testCase.expected}, Got: ${result}</div>`);
+                            } else {
+                                addToTerminal(`<div class="terminal-error">❌ Test ${index + 1}: ${testCase.description}</div>`);
+                                addToTerminal(`<div class="terminal-log">   Input: [${testCase.input.join(', ')}]</div>`);
+                                addToTerminal(`<div class="terminal-log">   Expected: ${testCase.expected}, Got: ${result}</div>`);
+                            }
+                            
+                        } catch (error) {
+                            addToTerminal(`<div class="terminal-error">❌ Test ${index + 1}: ${testCase.description}</div>`);
+                            addToTerminal(`<div class="terminal-error">   Runtime Error: ${error.message}</div>`);
+                        }
+                    });
+                    
+                    addToTerminal(`<div class="terminal-log">═══════════════════════════════════════════════</div>`);
+                    
+                    // Show final results
+                    const percentage = Math.round((passedTests / totalTests) * 100);
+                    
+                    // Update progress indicators
+                    document.getElementById('tests-passed').textContent = `${passedTests}/${totalTests}`;
+                    document.getElementById('success-rate').textContent = `${percentage}%`;
+                    
+                    if (passedTests === totalTests) {
+                        addToTerminal(`<div class="terminal-success">🎉 All tests passed! (${passedTests}/${totalTests}) - ${percentage}%</div>`);
+                        addToTerminal(`<div class="terminal-success">✅ Challenge completed successfully!</div>`);
+                        updateStatus('All Tests Passed', 'ready');
+                        document.getElementById('test-status').textContent = 'Completed ✅';
+                    } else {
+                        addToTerminal(`<div class="terminal-error">⚠️  ${passedTests}/${totalTests} tests passed (${percentage}%)</div>`);
+                        addToTerminal(`<div class="terminal-log">💡 Hint: Check the loop condition in your calculateSum function</div>`);
+                        updateStatus(`${passedTests}/${totalTests} Tests Passed`, 'error');
+                        document.getElementById('test-status').textContent = 'Failed ❌';
+                    }
+                    
+                } catch (error) {
+                    addToTerminal(`<div class="terminal-error">❌ Unexpected Error: ${error.message}</div>`);
+                    updateStatus('Error', 'error');
+                }
+                
+                // Re-enable submit button
+                submitBtn.disabled = false;
+            }, 500);
+        }
+
+        function clearTerminal() {
+            document.getElementById('terminal-output').innerHTML = `
+                <div class="terminal-log">Terminal cleared.</div>
+            `;
+            scrollTerminalToBottom();
+        }
+
+        function resetChallenge() {
+            if (confirm('Are you sure you want to reset the challenge? This will clear your progress.')) {
+                location.reload();
+            }
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + Enter to run code
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                e.preventDefault();
+                runCode();
+            }
+            
+            // Ctrl/Cmd + Shift + C to clear terminal
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'C') {
+                e.preventDefault();
+                clearTerminal();
+            }
+        });
+
+        // Initialize status
+        updateStatus('Ready', 'ready');
+        document.getElementById('test-status').textContent = 'Not Started';
+        document.getElementById('tests-passed').textContent = '0/6';
+        document.getElementById('success-rate').textContent = '0%';
+    </script>
+</body>
+</html>

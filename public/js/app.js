@@ -18,6 +18,24 @@ async function loadQuiz() {
     }
 }
 
+// Global function to show error screen
+window.showErrorScreen = function() {
+    const gameBody = document.getElementById('game-body');
+    const template = document.getElementById('error-template');
+    gameBody.innerHTML = template.innerHTML;
+};
+
+// Global function to start quiz (will be called from welcome screen)
+window.startQuiz = function() {
+    // This will be handled by the existing loadQuiz function in app.js
+    if (window.loadQuiz) {
+        loadQuiz();
+    }
+};
+
+// Add smooth scroll behavior
+document.documentElement.style.scrollBehavior = 'smooth';
+
 // Function to display quiz
 function displayQuiz(quiz) {
     let currentQuestionIndex = 0;
@@ -114,7 +132,7 @@ function displayQuiz(quiz) {
         });
         
         resultsHTML += `
-                </div>
+            </div>
                 <button onclick="restartQuiz()">Restart Quiz</button>
             </div>
         `;
@@ -133,13 +151,50 @@ function displayQuiz(quiz) {
     showQuestion(0);
 }
 
+// Global function to show welcome screen
+window.showWelcomeScreen = function() {
+    const gameBody = document.getElementById('game-body');
+    const template = document.getElementById('welcome-template');
+    gameBody.innerHTML = template.innerHTML;
+};
+
 // Load welcome screen when page loads, instead of immediately loading quiz
 document.addEventListener('DOMContentLoaded', function() {
-    // Show welcome screen first
-    if (window.showWelcomeScreen) {
-        showWelcomeScreen();
-    } else {
-        // Fallback to loading quiz directly
-        loadQuiz();
+  // Add some animation to the header
+  const header = document.querySelector(".header");
+  header.style.opacity = "0";
+  header.style.transform = "translateY(-20px)";
+
+  setTimeout(() => {
+    header.style.transition = "opacity 0.6s ease, transform 0.6s ease";
+    header.style.opacity = "1";
+    header.style.transform = "translateY(0)";
+  }, 100);
+
+  // Add keyboard navigation
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      const nextBtn = document.getElementById("next-btn");
+      if (nextBtn && !nextBtn.disabled) {
+        nextBtn.click();
+      }
     }
+
+    // Number keys for option selection
+    if (e.key >= "1" && e.key <= "4") {
+      const optionIndex = parseInt(e.key) - 1;
+      const optionBtns = document.querySelectorAll(".option-btn");
+      if (optionBtns[optionIndex]) {
+        optionBtns[optionIndex].click();
+      }
+    }
+  });
+
+  // Show welcome screen first
+  if (window.showWelcomeScreen) {
+    showWelcomeScreen();
+  } else {
+    // Fallback to loading quiz directly
+    loadQuiz();
+  }
 });
