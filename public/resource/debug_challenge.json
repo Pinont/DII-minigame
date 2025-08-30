@@ -1,43 +1,256 @@
 {
   "quiz": {
-    "title": "Debug Challenge Quiz",
-    "description": "Test your debugging skills!",
+    "title": "JavaScript Debug Challenge",
+    "description": "Test your debugging skills with JavaScript programming challenges!",
     "questions": [
       {
-        "id": 1,
-        "question": "What is the output of console.log(typeof null)?",
-        "options": [
-          "null",
-          "object",
-          "undefined",
-          "string"
+        "id": 0,
+        "question": "Sum Calculator",
+        "description": "Fix the calculateSum function to correctly calculate the sum of all numbers in an array",
+        "functionName": "calculateSum",
+        "codepath": "./code/calculateSum.js",
+        "language": "javascript",
+        "testcases": [
+          {
+            "description": "Basic array [1,2,3,4,5]",
+            "input": [1, 2, 3, 4, 5],
+            "expected": 15
+          },
+          {
+            "description": "Empty array []",
+            "input": [],
+            "expected": 0
+          },
+          {
+            "description": "Single element [10]",
+            "input": [10],
+            "expected": 10
+          },
+          {
+            "description": "Negative numbers [-1,-2,-3]",
+            "input": [-1, -2, -3],
+            "expected": -6
+          },
+          {
+            "description": "Array with zeros [0,0,0]",
+            "input": [0, 0, 0],
+            "expected": 0
+          },
+          {
+            "description": "Decimal numbers [2.5,3.7,1.8]",
+            "input": [2.5, 3.7, 1.8],
+            "expected": 8
+          }
         ],
-        "correctAnswer": 1,
-        "explanation": "In JavaScript, typeof null returns 'object' due to a historical bug that has been kept for compatibility."
+        "hints": [
+          "The bug is in the loop condition",
+          "Think about array indices - what's the valid range for accessing array elements?",
+          "Arrays are zero-indexed, so valid indices are 0 to length-1"
+        ]
+      },
+      {
+        "id": 1,
+        "question": "Find Maximum",
+        "description": "Fix the findMax function to correctly find the maximum number in an array",
+        "functionName": "findMax",
+        "codepath": "./code/findMax.js",
+        "language": "javascript",
+        "testcases": [
+          {
+            "description": "Basic array [1,5,3,9,2]",
+            "input": [1, 5, 3, 9, 2],
+            "expected": 9
+          },
+          {
+            "description": "Negative numbers [-5,-1,-10,-3]",
+            "input": [-5, -1, -10, -3],
+            "expected": -1
+          },
+          {
+            "description": "Single element [42]",
+            "input": [42],
+            "expected": 42
+          },
+          {
+            "description": "All same values [7,7,7,7]",
+            "input": [7, 7, 7, 7],
+            "expected": 7
+          }
+        ],
+        "hints": [
+          "Check the comparison operator",
+          "Make sure you're comparing with the current maximum correctly"
+        ]
       },
       {
         "id": 2,
-        "question": "Which method is used to add an element to the end of an array?",
-        "options": [
-          "append()",
-          "push()",
-          "add()",
-          "insert()"
+        "question": "Reverse String",
+        "description": "Fix the reverseString function to correctly reverse a string",
+        "functionName": "reverseString",
+        "codepath": "./code/reverseString.js",
+        "language": "javascript",
+        "testcases": [
+          {
+            "description": "Basic string 'hello'",
+            "input": "hello",
+            "expected": "olleh"
+          },
+          {
+            "description": "Empty string ''",
+            "input": "",
+            "expected": ""
+          },
+          {
+            "description": "Single character 'a'",
+            "input": "a",
+            "expected": "a"
+          },
+          {
+            "description": "Numbers '12345'",
+            "input": "12345",
+            "expected": "54321"
+          }
         ],
-        "correctAnswer": 1,
-        "explanation": "The push() method adds one or more elements to the end of an array."
+        "hints": [
+          "Check the loop bounds",
+          "Are you building the string in the right order?"
+        ]
       },
       {
         "id": 3,
-        "question": "What does the '===' operator do in JavaScript?",
-        "options": [
-          "Assigns a value",
-          "Compares values with type coercion",
-          "Compares values without type coercion",
-          "Checks if variable exists"
+        "question": "Array Sum (JavaScript)",
+        "description": "Fix the arraySum function to correctly calculate the sum of all numbers in an array",
+        "functionName": "arraySum",
+        "codepath": "./code/arraySum.js",
+        "language": "javascript",
+        "testcases": [
+          {
+            "description": "Basic array [1,2,3,4,5]",
+            "input": [1, 2, 3, 4, 5],
+            "expected": 15
+          },
+          {
+            "description": "Empty array []",
+            "input": [],
+            "expected": 0
+          },
+          {
+            "description": "Single element [10]",
+            "input": [10],
+            "expected": 10
+          },
+          {
+            "description": "Negative numbers [-1,-2,-3]",
+            "input": [-1, -2, -3],
+            "expected": -6
+          }
         ],
-        "correctAnswer": 2,
-        "explanation": "The '===' operator compares both value and type without performing type coercion."
+        "hints": [
+          "Check the loop condition",
+          "Array indices in JavaScript are 0-based"
+        ]
+      },
+      {
+        "id": 4,
+        "question": "Find Minimum (JavaScript)",
+        "description": "Fix the findMinimum function to correctly find the minimum number in an array",
+        "functionName": "findMinimum",
+        "codepath": "./code/findMinimum.js",
+        "language": "javascript",
+        "testcases": [
+          {
+            "description": "Basic array [5,2,8,1,9]",
+            "input": [5, 2, 8, 1, 9],
+            "expected": 1
+          },
+          {
+            "description": "Negative numbers [-5,-1,-10,-3]",
+            "input": [-5, -1, -10, -3],
+            "expected": -10
+          },
+          {
+            "description": "Single element [42]",
+            "input": [42],
+            "expected": 42
+          },
+          {
+            "description": "All same values [7,7,7,7]",
+            "input": [7, 7, 7, 7],
+            "expected": 7
+          }
+        ],
+        "hints": [
+          "Check the comparison operator",
+          "Make sure you initialize the minimum value correctly"
+        ]
+      },
+      {
+        "id": 5,
+        "question": "Factorial Calculator (JavaScript)",
+        "description": "Fix the calculateFactorial function to correctly calculate the factorial of a number",
+        "functionName": "calculateFactorial",
+        "codepath": "./code/factorial.js",
+        "language": "javascript",
+        "testcases": [
+          {
+            "description": "Factorial of 5",
+            "input": 5,
+            "expected": 120
+          },
+          {
+            "description": "Factorial of 0",
+            "input": 0,
+            "expected": 1
+          },
+          {
+            "description": "Factorial of 1",
+            "input": 1,
+            "expected": 1
+          },
+          {
+            "description": "Factorial of 4",
+            "input": 4,
+            "expected": 24
+          }
+        ],
+        "hints": [
+          "Check the base case for factorial",
+          "Are you handling 0! = 1 correctly?"
+        ]
+      },
+      {
+        "id": 6,
+        "question": "Binary Search (JavaScript)",
+        "description": "Fix the binarySearch function to correctly search for a target in a sorted array",
+        "functionName": "binarySearch",
+        "codepath": "./code/binarySearch.js",
+        "language": "javascript",
+        "testcases": [
+          {
+            "description": "Find 5 in [1,3,5,7,9]",
+            "input": [[1, 3, 5, 7, 9], 5],
+            "expected": 2
+          },
+          {
+            "description": "Find 1 in [1,3,5,7,9]",
+            "input": [[1, 3, 5, 7, 9], 1],
+            "expected": 0
+          },
+          {
+            "description": "Find 10 (not found) in [1,3,5,7,9]",
+            "input": [[1, 3, 5, 7, 9], 10],
+            "expected": -1
+          },
+          {
+            "description": "Find 7 in [1,3,5,7,9]",
+            "input": [[1, 3, 5, 7, 9], 7],
+            "expected": 3
+          }
+        ],
+        "hints": [
+          "Check the mid calculation",
+          "Are you updating left and right pointers correctly?"
+        ]
       }
     ]
   }
