@@ -1,0 +1,401 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.timer-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.timer {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 8px 16px;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.timer.warning {
+    background: rgba(255, 193, 7, 0.3);
+    border-color: #ffc107;
+    animation: pulse 1s infinite;
+}
+
+.timer.danger {
+    background: rgba(220, 53, 69, 0.3);
+    border-color: #dc3545;
+    animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.challenge-title {
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.main-container {
+    display: flex;
+    height: calc(100vh - 70px);
+}
+
+.left-panel {
+    width: 300px;
+    background-color: #252526;
+    border-right: 1px solid #3e3e42;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.challenge-info {
+    margin-bottom: 20px;
+}
+
+.challenge-info h3 {
+    color: #569cd6;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.challenge-info p {
+    line-height: 1.6;
+    margin-bottom: 15px;
+    color: #cccccc;
+}
+
+.challenge-requirements {
+    background: rgba(76, 175, 80, 0.1);
+    border-left: 4px solid #4caf50;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 0 5px 5px 0;
+}
+
+.challenge-requirements h4 {
+    color: #4caf50;
+    margin-bottom: 10px;
+}
+
+.challenge-requirements ul {
+    padding-left: 20px;
+    color: #cccccc;
+}
+
+.challenge-requirements li {
+    margin-bottom: 5px;
+}
+
+.right-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-container {
+    flex: 1;
+    position: relative;
+}
+
+#editor {
+    width: 100%;
+    height: 100%;
+}
+
+.terminal-section {
+    height: 300px;
+    min-height: 250px;
+    max-height: 40vh;
+    background-color: #1e1e1e;
+    border-top: 1px solid #3e3e42;
+    display: flex;
+    flex-direction: column;
+    resize: vertical;
+    overflow: hidden;
+}
+
+.terminal-header {
+    background-color: #2d2d30;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #3e3e42;
+}
+
+.terminal-title {
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(40, 167, 69, 0.3);
+}
+
+.submit-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
+}
+
+.submit-btn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Ensure all terminal text content wraps properly */
+.terminal-content * {
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
+
+/* Prevent horizontal scrolling in terminal */
+.terminal-content {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    background-color: #0c0c0c;
+    scroll-behavior: smooth;
+    height: 100%;
+    max-height: calc(100% - 60px); /* Account for header height */
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    width: 100%;
+    box-sizing: border-box;
+    scroll-padding: 20px; /* Add padding for better centering */
+}
+
+.terminal-output {
+    color: #ffffff;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20px 0; /* Add vertical padding for better centering */
+    min-height: 100%; /* Ensure content can be centered */
+}
+
+/* Specific styling for hint messages and long text */
+.terminal-output div {
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    hyphens: auto;
+}
+
+.terminal-error {
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+    padding: 8px;
+    border-radius: 4px;
+    margin: 5px 0;
+    border-left: 3px solid #ff6b6b;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.terminal-success {
+    color: #51cf66;
+    background: rgba(81, 207, 102, 0.1);
+    padding: 8px;
+    border-radius: 4px;
+    margin: 5px 0;
+    border-left: 3px solid #51cf66;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.terminal-log {
+    color: #74c0fc;
+    margin: 3px 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    max-width: 100%;
+    display: block;
+    hyphens: auto;
+}
+
+/* Special styling for hint messages */
+.terminal-hint {
+    color: #ffc107;
+    background: rgba(255, 193, 7, 0.1);
+    padding: 8px;
+    border-radius: 4px;
+    margin: 5px 0;
+    border-left: 3px solid #ffc107;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: pre-wrap;
+    max-width: 100%;
+    display: block;
+    hyphens: auto;
+}
+
+.clear-btn {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 10px;
+}
+
+.clear-btn:hover {
+    background: #5a6268;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #28a745;
+}
+
+.status-dot.running {
+    background-color: #ffc107;
+    animation: blink 1s infinite;
+}
+
+.status-dot.error {
+    background-color: #dc3545;
+}
+
+@keyframes blink {
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+}
+
+/* Custom scrollbar for terminal */
+.terminal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.terminal-content::-webkit-scrollbar-track {
+    background: #1a1a1a;
+    border-radius: 4px;
+}
+
+.terminal-content::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+
+.terminal-content::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+/* Firefox scrollbar */
+.terminal-content {
+    scrollbar-width: thin;
+    scrollbar-color: #555 #1a1a1a;
+}
+
+.hint-section {
+    background: rgba(255, 193, 7, 0.1);
+    border-left: 4px solid #ffc107;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 0 5px 5px 0;
+}
+
+.hint-section h4 {
+    color: #ffc107;
+    margin-bottom: 10px;
+}
+
+.hint-section p {
+    color: #cccccc;
+    font-size: 14px;
+}
+
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+    .left-panel {
+        width: 100%;
+        height: 200px;
+    }
+
+    .terminal-section {
+        height: 200px;
+    }
+
+    .header {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+}
