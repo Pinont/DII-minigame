@@ -95,8 +95,6 @@ async function loadChallenge() {
 
 // Update the challenge information in the UI
 function updateChallengeInfo(quiz, challenge) {
-  // Update title
-  document.querySelector('.challenge-title').textContent = `🐛 ${quiz.title}`;
   
   // Update description
   document.querySelector('.challenge-info p').innerHTML = challenge.description;
