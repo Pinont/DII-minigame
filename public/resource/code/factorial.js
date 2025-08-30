@@ -6,11 +6,11 @@ function calculateFactorial(n) {
     }
     
     if (n === 0) {
-        return 0; // Bug: 0! should be 1, not 0
+        return 0;
     }
     
     let result = 1;
-    for (let i = 2; i <= n; i++) { // Bug: should start from 1, not 2
+    for (let i = 2; i <= n; i++) {
         result *= i;
     }
     

@@ -2,7 +2,7 @@
 // The function should reverse a string
 function reverseString(str) {
     let result = "";
-    for (let i = 0; i <= str.length; i++) {  // Bug: should be < str.length
+    for (let i = 0; i <= str.length; i++) { 
         result += str[str.length - 1 - i];
     }
     return result;

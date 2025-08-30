@@ -8,7 +8,7 @@
         "question": "Sum Calculator",
         "description": "Fix the calculateSum function to correctly calculate the sum of all numbers in an array",
         "functionName": "calculateSum",
-        "codepath": "./code/calculateSum.js",
+        "codepath": "code/calculateSum.js",
         "language": "javascript",
         "testcases": [
           {
@@ -53,7 +53,7 @@
         "question": "Find Maximum",
         "description": "Fix the findMax function to correctly find the maximum number in an array",
         "functionName": "findMax",
-        "codepath": "./code/findMax.js",
+        "codepath": "code/findMax.js",
         "language": "javascript",
         "testcases": [
           {
@@ -87,7 +87,7 @@
         "question": "Reverse String",
         "description": "Fix the reverseString function to correctly reverse a string",
         "functionName": "reverseString",
-        "codepath": "./code/reverseString.js",
+        "codepath": "code/reverseString.js",
         "language": "javascript",
         "testcases": [
           {
@@ -121,7 +121,7 @@
         "question": "Array Sum (JavaScript)",
         "description": "Fix the arraySum function to correctly calculate the sum of all numbers in an array",
         "functionName": "arraySum",
-        "codepath": "./code/arraySum.js",
+        "codepath": "code/arraySum.js",
         "language": "javascript",
         "testcases": [
           {
@@ -155,7 +155,7 @@
         "question": "Find Minimum (JavaScript)",
         "description": "Fix the findMinimum function to correctly find the minimum number in an array",
         "functionName": "findMinimum",
-        "codepath": "./code/findMinimum.js",
+        "codepath": "code/findMinimum.js",
         "language": "javascript",
         "testcases": [
           {
@@ -189,7 +189,7 @@
         "question": "Factorial Calculator (JavaScript)",
         "description": "Fix the calculateFactorial function to correctly calculate the factorial of a number",
         "functionName": "calculateFactorial",
-        "codepath": "./code/factorial.js",
+        "codepath": "code/factorial.js",
         "language": "javascript",
         "testcases": [
           {
@@ -223,7 +223,7 @@
         "question": "Binary Search (JavaScript)",
         "description": "Fix the binarySearch function to correctly search for a target in a sorted array",
         "functionName": "binarySearch",
-        "codepath": "./code/binarySearch.js",
+        "codepath": "code/binarySearch.js",
         "language": "javascript",
         "testcases": [
           {

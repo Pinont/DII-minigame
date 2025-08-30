@@ -75,7 +75,7 @@ async function loadChallenge() {
     const data = await response.json();
     
     // Get the first challenge (can be extended to support multiple challenges)
-    currentChallenge = data.quiz.questions[3];
+    currentChallenge = data.quiz.questions[2];
     
     // Load the code file
     const codeResponse = await fetch(`../resource/${currentChallenge.codepath}`);
@@ -108,7 +108,10 @@ function updateChallengeInfo(quiz, challenge) {
   // Show first few test cases as examples
   challenge.testcases.slice(0, 4).forEach(testcase => {
     const li = document.createElement('li');
-    li.innerHTML = `<code>calculateSum([${testcase.input.join(',')}])</code> → <strong>${testcase.expected}</strong>`;
+    const inputDisplay = Array.isArray(testcase.input) 
+      ? `[${testcase.input.join(',')}]` 
+      : `"${testcase.input}"`;
+    li.innerHTML = `<code>${challenge.functionName}(${inputDisplay})</code> → <strong>${testcase.expected}</strong>`;
     examplesList.appendChild(li);
   });
   
@@ -288,10 +291,11 @@ function runCode(triggeredBy = 'button') {
                 testCase.description
               }</div>`
             );
+            const inputDisplay = Array.isArray(testCase.input) 
+              ? `[${testCase.input.join(", ")}]` 
+              : `"${testCase.input}"`;
             addToTerminal(
-              `<div class="terminal-log">   Input: [${testCase.input.join(
-                ", "
-              )}]</div>`
+              `<div class="terminal-log">   Input: ${inputDisplay}</div>`
             );
             addToTerminal(
               `<div class="terminal-log">   Expected: ${testCase.expected}, Got: ${result}</div>`
@@ -302,10 +306,11 @@ function runCode(triggeredBy = 'button') {
                 testCase.description
               }</div>`
             );
+            const inputDisplay = Array.isArray(testCase.input) 
+              ? `[${testCase.input.join(", ")}]` 
+              : `"${testCase.input}"`;
             addToTerminal(
-              `<div class="terminal-log">   Input: [${testCase.input.join(
-                ", "
-              )}]</div>`
+              `<div class="terminal-log">   Input: ${inputDisplay}</div>`
             );
             addToTerminal(
               `<div class="terminal-log">   Expected: ${testCase.expected}, Got: ${result}</div>`
@@ -350,7 +355,7 @@ function runCode(triggeredBy = 'button') {
           `<div class="terminal-error">⚠️  ${passedTests}/${totalTests} tests passed (${percentage}%)</div>`
         );
         addToTerminal(
-          `<div class="terminal-hint">💡 Hint: Check the loop condition in your calculateSum function</div>`
+          `<div class="terminal-hint">💡 Hint: ${currentChallenge.hints ? currentChallenge.hints[0] : 'Check your function logic'}</div>`
         );
         updateStatus(`${passedTests}/${totalTests} Tests Passed`, "error");
         document.getElementById("test-status").textContent = "Failed ❌";
