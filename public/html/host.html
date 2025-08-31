@@ -4,8 +4,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Host - DII Minigame</title>
-        <link rel="stylesheet" href="../src/css/style.css">
-        <link rel="stylesheet" href="../src/css/host.css">
+        <script src="../dist/firebase.js" type="module"></script>
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/host.css">
     </head>
     <body>
 
@@ -51,9 +52,9 @@
                                 <!-- Quiz options will be dynamically loaded here -->
                             </div>
                             <div class="quiz-controls">
+                                <p class="selected-count">Selected: <span id="selected-count">0</span> questions</p>
                                 <button type="button" onclick="selectAllQuizzes()">Select All</button>
                                 <button type="button" onclick="deselectAllQuizzes()">Deselect All</button>
-                                <p class="selected-count">Selected: <span id="selected-count">0</span> questions</p>
                             </div>
                         </div>
                         
@@ -67,8 +68,6 @@
             <p>&copy; 2025 DII GEN7 - Open house Minigame</p>
             <p>Made with ❤️ from DII GEN7 devs</p>
         </footer>
-
-        <script src="../src/js/firebase.js" type="module"></script>
-        <script src="../src/js/host/index.js" type="text/javascript"></script>
     </body>
+    <script src="../dist/host.js" type="module"></script>
 </html>

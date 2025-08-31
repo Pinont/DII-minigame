@@ -278,3 +278,76 @@ button[onclick="restartQuiz()"] {
 button[onclick="restartQuiz()"]:hover {
     background-color: #0056b3;
 }
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 40vh;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    margin: 0 auto;
+    padding: 0;
+}
+
+h2 {
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-size: 2rem;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+#join-code-input, #player-name-input {
+    padding: 12px 18px;
+    font-size: 1.1rem;
+    border: 1.5px solid #bbb;
+    border-radius: 6px;
+    outline: none;
+    margin-bottom: 1.2rem;
+    width: 240px;
+    background: #fff;
+    color: #222;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+#join-code-input:focus {
+    border-color: #764ba2;
+    box-shadow: 0 2px 8px rgba(118, 75, 162, 0.08);
+}
+
+/* Hide number input spinner buttons */
+#join-code-input::-webkit-outer-spin-button,
+#join-code-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+#join-code-input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+#join-game-btn {
+    padding: 12px 36px;
+    font-size: 1.08rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.10);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+}
+
+#join-game-btn:hover {
+    background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.18);
+}
