@@ -1,73 +1,10 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Host - DII Minigame</title>
-        <script src="../dist/firebase.js" type="module"></script>
-        <link rel="stylesheet" href="../css/style.css">
-        <link rel="stylesheet" href="../css/host.css">
-    </head>
     <body>
-
-        <header class="header">
-            <h1>CAMT OPEN HOUSE 68</h1>
-        </header>
-        
-        <main>
-            <div class="container">
-                <div class="host-section">
-                    <h2>Join Code</h2>
-                    <p class="join-code" id="join-code">000000</p>
-                    <button onclick="generateJoinCode()">Generate New Code</button>
-                </div>
-                
-                <div class="minigame-selection">
-                    <h2>Select Minigame</h2>
-                    <div class="game-options">
-                        <button class="game-option" data-game="debug_challenge">
-                            <h3>🐛 Debug Challenge</h3>
-                            <p>Fix JavaScript code bugs</p>
-                        </button>
-                        <button class="game-option" data-game="code_typing">
-                            <h3>⌨️ Code Typing</h3>
-                            <p>Type code as fast as possible</p>
-                        </button>
-                        <button class="game-option" data-game="logic">
-                            <h3>🧠 Logic Challenge</h3>
-                            <p>Solve programming logic puzzles</p>
-                        </button>
-                    </div>
-                    <div class="selected-game">
-                        <p>Selected Game: <span id="selected-game">None</span></p>
-                        
-                        <!-- Quiz Selection for Debug Challenge -->
-                        <div id="quiz-selection" class="quiz-selection" style="display: none;">
-                            <h3>Select Quiz Questions</h3>
-                            <p>Choose which quiz questions to include:</p>
-                            <div class="quiz-loading" id="quiz-loading">
-                                <p>Loading quiz questions...</p>
-                            </div>
-                            <div class="quiz-options" id="quiz-options-container">
-                                <!-- Quiz options will be dynamically loaded here -->
-                            </div>
-                            <div class="quiz-controls">
-                                <p class="selected-count">Selected: <span id="selected-count">0</span> questions</p>
-                                <button type="button" onclick="selectAllQuizzes()">Select All</button>
-                                <button type="button" onclick="deselectAllQuizzes()">Deselect All</button>
-                            </div>
-                        </div>
-                        
-                        <button id="start-game" disabled>Start Game</button>
-                    </div>
-                </div>
-            </div>
-        </main>
-        
-        <footer class="footer">
-            <p>&copy; 2025 DII GEN7 - Open house Minigame</p>
-            <p>Made with ❤️ from DII GEN7 devs</p>
-        </footer>
+        <h1>Host</h1>
+        <p>Select game mode:</p>
+        <ul>
+            <li><input type="checkbox"></li>
+        </ul>
     </body>
-    <script src="../dist/host.js" type="module"></script>
 </html>
