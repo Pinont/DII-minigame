@@ -17,7 +17,7 @@
     "skipLibCheck": true,
     "isolatedModules": true,
     "allowJs": true,
-    "checkJs": false,
+    "checkJs": true,
     "outDir": "./public/dist",
     "rootDir": "./src",
     "baseUrl": ".",
