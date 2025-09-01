@@ -4,18 +4,6 @@ import './firebase.js';
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DII Minigame TypeScript app initialized');
-  
-  // Check if we're on a specific page and load appropriate modules
-  const path = window.location.pathname;
-  
-  if (path.includes('player_list.html')) {
-    // Player list page is handled by its own script
-    console.log('Player list page detected');
-  } else if (path.includes('debug-challenge.html')) {
-    console.log('Debug challenge page detected');
-  } else if (path.includes('/host/')) {
-    console.log('Host page detected');
-  }
 
   const joinButton = document.getElementById("join-game-btn");
   const joinCodeInput = document.getElementById("join-code-input");
@@ -66,10 +54,6 @@ document.addEventListener('DOMContentLoaded', () => {
       
       console.log("Player name:", playerName);
       console.log("Joining game with code:", joinCode);
-      
-      // Redirect to game room with parameters
-      const gameRoomUrl = `game_room.html?joinCode=${encodeURIComponent(joinCode)}&name=${encodeURIComponent(playerName)}`;
-      window.location.href = gameRoomUrl;
     });
   }
 
