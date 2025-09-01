@@ -8,8 +8,16 @@
     ],
     "rewrites": [
       {
-        "source": "**",
-        "destination": "html/index.html"
+        "source": "/",
+        "destination": "/html/index.html"
+      },
+      {
+        "source": "/host",
+        "destination": "/html/host.html"
+      },
+      {
+        "source": "/host_lobby",
+        "destination": "/html/player_list.html"
       }
     ]
   },

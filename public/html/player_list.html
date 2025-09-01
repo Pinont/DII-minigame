@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Player List - DII Minigame</title>
+        <link rel="stylesheet" href="../css/style.css">
+        <link rel="stylesheet" href="../css/host.css">
+        <link rel="stylesheet" href="../css/player_list.css">
+        <script type="module" src="../dist/player_list.js"></script>
+    </head>
+    <body>
+        <header class="header">
+            <h1>CAMT OPEN HOUSE 68</h1>
+        </header>
+        
+        <main>
+            <div class="container">
+                <!-- Game Information Section -->
+                <div class="game-info-section">
+                    <h2>🎮 Game Lobby</h2>
+                    <div class="game-details">
+                        <div class="detail-item">
+                            <label>Join Code:</label>
+                            <span id="game-join-code" class="join-code-display">------</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Game Type:</label>
+                            <span id="game-type" class="game-type-display">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Status:</label>
+                            <span id="game-status">Waiting for Players</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Players Section -->
+                <div class="players-section">
+                    <div class="players-header">
+                        <h3>👥 Connected Players</h3>
+                        <div class="players-count">
+                            <span id="total-players">0</span> Players
+                        </div>
+                    </div>
+                    
+                    <div class="players-container">
+                        <div id="players-list" class="players-list">
+                            <div class="no-players">
+                                <div class="no-players-icon">🎯</div>
+                                <p>No players have joined yet</p>
+                                <p class="join-instruction">Share the join code with players!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Game Controls -->
+                <div class="game-controls-section">
+                    <div class="control-buttons">
+                        <button id="start-game-btn" class="btn btn-primary" disabled>
+                            🚀 Start Game
+                        </button>
+                        <button id="end-game-btn" class="btn btn-danger">
+                            ❌ End Game
+                        </button>
+                        <button id="refresh-btn" class="btn btn-secondary">
+                            🔄 Refresh
+                        </button>
+                    </div>
+                    
+                    <div class="game-settings" id="game-settings" style="display: none;">
+                        <h4>Game Settings</h4>
+                        <div id="settings-content">
+                            <!-- Settings will be populated here -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Loading State -->
+                <div id="loading-state" class="loading-state">
+                    <div class="loading-spinner"></div>
+                    <p>Loading game session...</p>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p>&copy; 2025 DII GEN7 - Open house Minigame</p>
+            <p>Made with ❤️ from DII GEN7 devs</p>
+        </footer>
+    </body>
+</html>
