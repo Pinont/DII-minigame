@@ -82,4 +82,19 @@
                 </footer>
             </body>
             <script src="../dist/host.js" type="module"></script>
+            <script>
+                // เมื่อกดปุ่มเกม จะเปลี่ยนค่า Selected Game
+                document.querySelectorAll(".game-option").forEach(button => {
+                button.addEventListener("click", () => {
+                    const selectedGame = button.getAttribute("data-game");
+                    document.getElementById("selected-game").textContent = selectedGame;
+                });
+                });
+
+                // ตัวอย่างฟังก์ชัน generateJoinCode (กัน error ถ้ายังไม่มีใน host.js)
+                function generateJoinCode() {
+                const code = Math.floor(100000 + Math.random() * 900000); // สุ่มเลข 6 หลัก
+                document.getElementById("join-code").textContent = code;
+                }
+             </script>
         </html>
