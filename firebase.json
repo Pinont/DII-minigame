@@ -16,8 +16,12 @@
         "destination": "/html/host.html"
       },
       {
+        "source": "/game_room",
+        "destination": "/html/game_room.html"
+      },
+      {
         "source": "/host_lobby",
-        "destination": "/html/player_list.html"
+        "destination": "/html/host_lobby.html"
       }
     ]
   },
