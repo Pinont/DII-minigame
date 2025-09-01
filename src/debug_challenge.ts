@@ -107,8 +107,8 @@ function addToTerminal(content: string): void {
 // Load challenge data from JSON
 async function loadChallenge(): Promise<void> {
   try {
-    console.log('Loading challenge data from: ../resources/debug_challenge.json');
-    const response = await fetch('../resources/debug_challenge.json');
+    console.log('Loading challenge data from: ../resources/debug_challenge/debug_challenge.json');
+    const response = await fetch('../resources/debug_challenge/debug_challenge.json');
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -125,9 +125,9 @@ async function loadChallenge(): Promise<void> {
     }
     
     // Load the code file
-    console.log('Loading code file from:', `../resources/${debugState.currentChallenge.codepath}`);
-    const codeResponse = await fetch(`../resources/${debugState.currentChallenge.codepath}`);
-    
+    console.log('Loading code file from:', `../resources/debug_challenge/${debugState.currentChallenge.codepath}`);
+    const codeResponse = await fetch(`../resources/debug_challenge/${debugState.currentChallenge.codepath}`);
+
     if (!codeResponse.ok) {
       throw new Error(`HTTP error loading code file! status: ${codeResponse.status}`);
     }
