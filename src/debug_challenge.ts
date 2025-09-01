@@ -256,12 +256,6 @@ async function initializeEditor(codeContent: string): Promise<void> {
   });
 }
 
-function startTimer(): void {
-  debugState.startTime = Date.now();
-  debugState.timerInterval = setInterval(updateTimer, 1000);
-  updateStatus("In Progress", "running");
-}
-
 function updateTimer(): void {
   if (!debugState.startTime) return;
 
