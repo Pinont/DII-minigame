@@ -9,12 +9,6 @@
     "type-check": "tsc --noEmit",
     "start": "npm run build"
   },
-  "keywords": [
-    "typescript",
-    "firebase",
-    "minigame",
-    "web"
-  ],
   "author": "",
   "license": "ISC",
   "type": "module",

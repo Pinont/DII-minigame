@@ -113,6 +113,7 @@
     color: #007bff;
 }
 
+
 #start-game {
     background: #28a745;
     color: white;
@@ -125,9 +126,17 @@
     transition: all 0.3s ease;
 }
 
+#start-game.stop {
+    background: #dc3545 !important;
+}
+
 #start-game:hover:not(:disabled) {
     background: #218838;
     transform: translateY(-1px);
+}
+
+#start-game.stop:hover:not(:disabled) {
+    background: #c82333 !important;
 }
 
 #start-game:disabled {

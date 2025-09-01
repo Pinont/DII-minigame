@@ -1,25 +1,9 @@
 {
   "rules": {
     "gameSessions": {
-      "$joinCode": {
+      "$gameId": {
         ".read": true,
-        ".write": true,
-        ".validate": "newData.hasChildren(['joinCode', 'gameType', 'status', 'createdAt'])",
-        "players": {
-          "$playerId": {
-            ".read": true,
-            ".write": true,
-            ".validate": "newData.hasChildren(['playerId', 'playerName', 'joinedAt'])"
-          }
-        },
-        "settings": {
-          ".read": true,
-          ".write": true
-        },
-        "results": {
-          ".read": true,
-          ".write": true
-        }
+        ".write": true
       }
     }
   }
