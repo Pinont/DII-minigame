@@ -1,5 +1,7 @@
 .host-section {
-    background: white;
+    background: rgba(255,255,255,0.25); /* โปร่งใส */
+    backdrop-filter: blur(12px);        /* กระจก */
+    -webkit-backdrop-filter: blur(12px);
     border-radius: 10px;
     padding: 30px;
     margin: 20px 0;
@@ -8,7 +10,7 @@
 }
 
 .host-section h2 {
-    color: #333;
+    color: #ffffff;
     margin-bottom: 20px;
     font-size: 1.5em;
 }
@@ -16,8 +18,10 @@
 .join-code {
     font-size: 3em;
     font-weight: bold;
-    color: #007bff;
-    background: #f8f9fa;
+    background: rgba(255,255,255,0.25); /* โปร่งใส */
+    backdrop-filter: blur(12px);        /* กระจก */
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 10px;
     padding: 20px;
     border-radius: 10px;
     margin: 20px 0;
@@ -26,7 +30,9 @@
 }
 
 .minigame-selection {
-    background: white;
+    background: rgba(255, 255, 255, 0.25); /* โปร่งใส */
+    backdrop-filter: blur(12px);        /* กระจก */
+    -webkit-backdrop-filter: blur(12px);
     border-radius: 10px;
     padding: 30px;
     margin: 20px 0;
@@ -34,7 +40,7 @@
 }
 
 .minigame-selection h2 {
-    color: #333;
+    color: #ffffff;
     margin-bottom: 20px;
     font-size: 1.5em;
     text-align: center;
@@ -128,8 +134,7 @@
 }
 
 button[onclick="generateJoinCode()"] {
-    background: #007bff;
-    color: white;
+   background: linear-gradient(90deg, var(--blue-600), var(--orange-500));
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
