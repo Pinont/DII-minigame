@@ -27,15 +27,6 @@ body {
     gap: 15px;
 }
 
-.timer {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 8px 16px;
-    border-radius: 25px;
-    font-weight: bold;
-    font-size: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-}
-
 .timer.warning {
     background: rgba(255, 193, 7, 0.3);
     border-color: #ffc107;

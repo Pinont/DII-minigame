@@ -20,21 +20,6 @@
 .section-row section {
   flex: 1; /* ให้แต่ละ section กว้างเท่ากัน */
 }
-.timer-box {
-    display: inline-block;
-    float: right;
-    align-self: flex-start;
-    background: rgba(0,0,0,0.15);
-    color: #fff;
-    font-size: 2rem;
-    font-family: "Inter", "Segoe UI", sans-serif;
-    padding: 10px 24px;
-    border-radius: 12px;
-    margin-bottom: 16px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    letter-spacing: 2px;
-    user-select: none; /* ป้องกันการเลือกข้อความ */
-}
 .input {
     width: 100%;
     max-width: 600px;
