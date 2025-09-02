@@ -10,41 +10,46 @@ let gameStarted = false;
 
 // เมื่อกดปุ่มเกม จะเปลี่ยนค่า Selected Game
    document.addEventListener("DOMContentLoaded", () => {
-    const start_game_button = document.getElementById("start-game");
-
-    const gameType = getGameType("dii07").then((result) => {
-      const selectedGameElem = document.getElementById("selected-game");
-      if (selectedGameElem) {
-        if (result && result.gameType) {
-          updateGameStatus(start_game_button, true);
-          console.log("Fetched game type:", result.gameType);
-          selectedGameElem.textContent = result.gameType;
-        } else {
+    const hasPassPhrase = document.cookie.split(";").some(cookie => cookie.trim() == "hostId=dii07");
+    if (!hasPassPhrase) {
+      console.log("No valid hostId cookie found, redirecting to index.html");
+      window.location.href = "index.html";
+    } else {
+      const start_game_button = document.getElementById("start-game");
+      getGameType("dii07").then((result) => {
+        const selectedGameElem = document.getElementById("selected-game");
+        if (selectedGameElem) {
+          if (result && result.gameType) {
+            updateGameStatus(start_game_button, true);
+            console.log("Fetched game type:", result.gameType);
+            selectedGameElem.textContent = result.gameType;
+          } else {
             registerGameSelectorButton();
+          }
         }
-      }
-    });
+      });
 
-    if (start_game_button) {
+      if (start_game_button) {
         start_game_button.addEventListener("click", () => {
-            const selectedGameElem = document.getElementById("selected-game");
-            if (!selectedGameElem) return;
-            if (!gameStarted) {
-                if (selectedGameElem.textContent == "None") {
-                  alert("Please select a game before starting.");
-                } else {
-                  console.log("Starting game:", selectedGameElem.textContent);
-                  createGame(selectedGameElem.textContent, "dii07");
-                  // Change button to red and text to Stop Game
-                  updateGameStatus(start_game_button, true);
-                  unregisterGameSelectorButton();
-                }
+          const selectedGameElem = document.getElementById("selected-game");
+          if (!selectedGameElem) return;
+          if (!gameStarted) {
+            if (selectedGameElem.textContent == "None") {
+              alert("Please select a game before starting.");
             } else {
-                updateGameStatus(start_game_button, false);
-                selectedGameElem.textContent = "None";
-                registerGameSelectorButton();
+              console.log("Starting game:", selectedGameElem.textContent);
+              createGame(selectedGameElem.textContent, "dii07");
+              // Change button to red and text to Stop Game
+              updateGameStatus(start_game_button, true);
+              unregisterGameSelectorButton();
             }
+          } else {
+            updateGameStatus(start_game_button, false);
+            selectedGameElem.textContent = "None";
+            registerGameSelectorButton();
+          }
         });
+      }
     }
 });
 
