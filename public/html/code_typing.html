@@ -1,37 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="dark light" />
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="color-scheme" content="dark light" />
         <title>CAMT OPEN HOUSE DII 68</title>
-    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@latest/min/vs/loader.js"></script>
-    <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/debug_challenge.css">
+        <link rel="stylesheet" href="../css/code_typing.css">
+        <link rel="stylesheet" href="../css/style.css">
+        <script src="../dist/firebase.js" type="module"></script>
+        <script src="../dist/index.js" type="module"></script>
+        <script src="../dist/host.js" type="module"></script>
 
-    <!-- Monospace for coding vibe + modern sans for headings -->
+        <!-- Monospace for coding vibe + modern sans for headings -->
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet" />
 
-    <!-- Header / brand -->
+        <!-- Header / brand -->
         <header class="brandbar" role="banner">
           <h1>CAMT OPEN HOUSE 68<span class="cursor">_</span></h1>
-          <!--Timer Box-->
-          <div class="timer-box" id="timer-box" aria-label="Timer">
-              <span id="timer-minutes">00</span>:<span id="timer-seconds">00</span>
-          </div>
 
           <div><h2>Code Typing Game!!!<span class="cursor">_</span></h2></div>
 
         </header>
-</head>
+    </head>
+
 <body>
+  
   <!-- Main card -->
   <main id="content">
+    <!--Timer Box-->
+          <div class="timer-box" id="timer-box" aria-label="Timer">
+              <span id="timer-minutes">00</span>:<span id="timer-seconds">00</span>
+          </div>
     
     <div class="section-row">
         <section class="minigameUI_card" aria-labelledby="Pototype-card">
-            <h1>Pototype</h1>
-            <p>This is a prototype of the code typing game for CAMT Open House 68. The game is designed to help users improve their coding skills in a fun and interactive way. Players will be challenged to type out code snippets as quickly and accurately as possible.</p>
+            <!--Title-->
+            <div><h1>Pototype</h1></div>
+            <!--Description-->
+            <div class="description-box"><p>This is a prototype of the code typing game for CAMT Open House 68. The game is designed to help users improve their coding skills in a fun and interactive way. Players will be challenged to type out code snippets as quickly and accurately as possible.</p></div>
         </section>
         <section class="minigameUI_card" aria-labelledby="Typing-code">
             <div class="field">

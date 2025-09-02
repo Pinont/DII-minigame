@@ -27,7 +27,23 @@
     height: 480px;
     min-height: 100px;
     max-height: 680px;
+    background-color: #001B2E;
     font-size: 1.1rem;
     font-family: 'Source Code Pro', monospace;
     resize: none;
+}
+.description-box {
+    width: 100%;
+    max-width: 600px;
+    min-width: 280px;
+    height: 480px;
+    min-height: 100px;
+    max-height: 680px;
+    background-color: #001B2E;
+    border-radius:18px;
+    text-align: justify;
+    padding: 20px;
+    margin-top: 10px;
+    font-size: 1.1rem;
+    font-family: 'Source Code Pro', monospace;
 }

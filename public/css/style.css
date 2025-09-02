@@ -10,12 +10,17 @@
       --peach-200:#F5CDA3;
       --white:#ffffff;
     }
-
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    }
     /* ===== Reset & base ===== */
     *,*::before,*::after{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0;
+      padding:0;
       color:var(--white);
       background:
         /* subtle vertical grid */
@@ -32,6 +37,14 @@
       overflow-x:hidden;
     }
 
+    body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1e1e1e;
+    color: #ffffff;
+    height: 100vh;
+    overflow: hidden;
+    }
+
     /* ===== Header strip ===== */
     .brandbar{
       position:relative;
@@ -42,11 +55,12 @@
     }
     .brandbar h1{
       margin:0;
+      padding: 0;
       font: 800 clamp(22px, 3.2vw, 42px)/1.1 "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       letter-spacing:.02em;
       display:inline-flex;
       align-items:baseline;
-      gap:.15em;
+      gap:.10em;
     }
     .cursor{
       display:inline-block;
@@ -182,10 +196,16 @@
 
 .timer-box {
     display: inline-block;
-    float: right;
     align-self: flex-start;
-    background: rgba(0,0,0,0.15);
-    color: #fff;
+    background:
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)) padding-box,
+        radial-gradient(120% 140% at 100% 0%, rgba(255, 153, 0, 0.3), transparent 40%) padding-box,
+        radial-gradient(120% 140% at 0% 100%, rgba(0,95,163,.35), transparent 40%) padding-box;
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.06);
+      backdrop-filter: blur(200px) saturate(120%);
+      border:1px solid rgba(255,255,255,.10);
     font-size: 2rem;
     font-family: "Inter", "Segoe UI", sans-serif;
     padding: 10px 24px;
