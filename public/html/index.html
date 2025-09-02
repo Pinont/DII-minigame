@@ -6,7 +6,6 @@
         <meta name="color-scheme" content="dark light" />
         <title>CAMT OPEN HOUSE DII 68</title>
         <link rel="stylesheet" href="../css/style.css">
-        <script src="../dist/firebase.js" type="module"></script>
         <script src="../dist/index.js" type="module"></script>
 
         <!-- Monospace for coding vibe + modern sans for headings -->
@@ -24,19 +23,19 @@
 
       <form action="#" method="post" autocomplete="on" novalidate>
         <div class="field">
-          <label for="code">Join Code</label>
-          <input class="input" id="code" name="code" type="text"
+          <label for="join-code-input">Join Code</label>
+          <input class="input" id="join-code-input" name="code" type="text"
                  placeholder="Enter Join Code" value="dii07" required />
         </div>
 
         <div class="field">
-          <label for="name">Your Name</label>
-          <input class="input" id="name" name="name" type="text"
+          <label for="player-name-input">Your Name</label>
+          <input class="input" id="player-name-input" name="name" type="text"
                  placeholder="Enter Your Name" required />
         </div>
 
         <div class="actions">
-          <button class="btn" type="submit" aria-label="Join Game">
+          <button id="join-game-btn" class="btn" type="submit" aria-label="Join Game">
             <span class="play-icon" aria-hidden="true"></span>
             Join Game
           </button>
@@ -49,6 +48,5 @@
   <footer>
     © 2025 DII GEN7 — Open House Minigame &lt;3
   </footer>
-  <script src="../dist/host.js" type="module"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 // Main TypeScript entry point for DII Minigame
-import './firebase.js';
+import { getGameType } from './firebase.js';
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
@@ -19,35 +19,36 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    joinButton.addEventListener("click", () => {
+    joinButton.addEventListener("click", async (e) => {
+      e.preventDefault();
       const joinCode = (joinCodeInput as HTMLInputElement).value.trim();
       const playerName = (playerNameInput as HTMLInputElement).value.trim();
-      
-      // Validate inputs
-      if (!joinCode) {
-        alert('Please enter a join code');
-        return;
-      }
-      
-      if (!playerName) {
-        alert('Please enter your name');
-        return;
-      }
-      
+
+      // Validate inputs as needed...
+
       console.log("Player name:", playerName);
       console.log("Joining game with code:", joinCode);
+
+      if (!joinCode) {
+        alert("Please enter a join code.");
+        return;
+      } 
+      if (!playerName) {
+        alert("Please enter your name.");
+        return;
+      }
+
+      const result = await getGameType(joinCode);
+
+      // You can check result.gameType here and redirect accordingly
+      if (result && result.gameType === "debug_challenge") {
+        window.location.href = "debug_challenge.html";
+      } else if (result && result.gameType === "code_typing") {
+        window.location.href = "code_typing.html";
+      } else {
+        alert("Unknown or game not exist");
+      }
     });
   }
-
-  // Global error handler
-  window.addEventListener('error', (event) => {
-    console.error('Global error:', event.error);
-  });
-  
-  // Global unhandled promise rejection handler
-  window.addEventListener('unhandledrejection', (event) => {
-    console.error('Unhandled promise rejection:', event.reason);
-  });
-
 });
 
