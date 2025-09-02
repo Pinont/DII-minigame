@@ -1,0 +1,48 @@
+h1 { margin-bottom: 10px; }
+    .blocks {
+      width: 100%; /* ขยายเต็มกรอบนอก */
+  padding: 10px; /* เพิ่มระยะห่างภายใน */
+  margin: 15px;
+  border-radius: 10px; /* มุมโค้ง */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* เพิ่มเงา */
+  display: flex;
+  gap: 10px;
+    }
+.dropzone{
+  width: 100%; /* ขยายเต็มกรอบนอก */
+  height: 100%; /* กำหนดความสูง */
+  padding: 10px; /* เพิ่มระยะห่างภายใน */
+  margin: 15px;
+  border-radius: 10px; /* มุมโค้ง */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* เพิ่มเงา */
+  display: flex;
+  gap: 10px;
+}
+.block {
+      padding: 10px 15px;
+      border-radius: 8px;
+      background: #4caf50;
+      color: white;
+      cursor: grab;
+      font-weight: bold;
+      user-select: none;
+    }
+.block[data-type="start"] { background: #2196f3; }
+.block[data-type="end"] { background: #9c27b0; }
+    .dropzone { min-width: 400px; justify-content: flex-start; }
+    #result { margin-top: 15px; font-size: 18px; font-weight: bold; }
+    #level { margin: 10px; font-size: 20px; font-weight: bold; }
+
+.result_logic {width:min(720px, 92vw);
+      border-radius:18px;
+      padding:36px clamp(28px, 4vw, 400px);
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)) padding-box,
+        radial-gradient(120% 140% at 100% 0%, rgba(224,133,0,.30), transparent 40%) padding-box,
+        radial-gradient(120% 140% at 0% 100%, rgba(0,95,163,.35), transparent 40%) padding-box;
+      box-shadow:
+        0 10px 30px rgba(0,0,0,.45),
+        inset 0 1px 0 rgba(255,255,255,.06);
+      backdrop-filter: blur(14px) saturate(120%);
+      border:1px solid rgba(255,255,255,.10);
+    }
