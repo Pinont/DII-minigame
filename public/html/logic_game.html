@@ -40,8 +40,10 @@
         <div class="dropzone" id="dropzone">วางบล็อกที่นี่ ➡️</div>
       </section>
     </div>
-
+    <div>
       <button class="btn_submitgame" onclick="checkAnswer()">✅ ตรวจคำตอบ</button>
+      <button class="btn_clear" onclick="clearBlocks()">🗑️ เคลียร์บล็อก</button>
+    </div>
   </main>
 </body>
   <script>
@@ -80,6 +82,15 @@
 
     let currentLevel = 0;
 
+    // ฟังก์ชันสุ่มตำแหน่งบล็อก
+    function shuffleBlocks(blocks) {
+      for (let i = blocks.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [blocks[i], blocks[j]] = [blocks[j], blocks[i]];
+      }
+      return blocks;
+    }
+
     function loadLevel(levelIndex) {
       const level = levels[levelIndex];
       document.getElementById("level").innerText = "Level " + (levelIndex + 1);
@@ -88,7 +99,10 @@
       const blocksContainer = document.getElementById("blocks");
       blocksContainer.innerHTML = "";
 
-      level.blocks.forEach(b => {
+      // สุ่มตำแหน่งบล็อกก่อนแสดงผล
+      const shuffledBlocks = shuffleBlocks([...level.blocks]);
+
+      shuffledBlocks.forEach(b => {
         const block = document.createElement("div");
         block.className = "block";
         block.innerText = b.charAt(0).toUpperCase() + b.slice(1);
@@ -139,6 +153,14 @@
       } else {
         result.innerText = "❌ Wrong sequence, try again!";
         result.style.color = "red";
+      }
+    }
+
+    // ฟังก์ชันเคลียร์บล็อกใน dropzone
+    function clearBlocks() {
+      const dropzone = document.getElementById("dropzone");
+      if (dropzone) {
+        dropzone.innerHTML = "วางบล็อกที่นี่ ➡️";
       }
     }
 
