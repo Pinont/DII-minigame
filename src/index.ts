@@ -1,6 +1,3 @@
-// Main TypeScript entry point for DII Minigame
-import { getGameType } from './firebase.js';
-
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
   console.log('DII Minigame TypeScript app initialized');
@@ -38,13 +35,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      const result = await getGameType(joinCode);
-
-      // You can check result.gameType here and redirect accordingly
-      if (result && result.gameType === "debug_challenge") {
+      if (joinCode.toLowerCase() === "debug") {
         window.location.href = "debug_challenge.html";
-      } else if (result && result.gameType === "code_typing") {
+      } else if (joinCode.toLowerCase() === "typing") {
         window.location.href = "code_typing.html";
+      } else if (joinCode.toLowerCase() === "logic") {
+        window.location.href = "logic_game.html";
       } else {
         alert("Unknown or game not exist");
       }

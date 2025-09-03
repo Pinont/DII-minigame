@@ -3,61 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="dark light" />
-        <title>CAMT OPEN HOUSE DII 68</title>
+    <title>Debug Challenge - Interactive Code Editor</title>
     <script src="https://cdn.jsdelivr.net/npm/monaco-editor@latest/min/vs/loader.js"></script>
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/debug_challenge.css">
-    <link rel="stylesheet" href="../css/minigame.css">
-
-    <!-- Monospace for coding vibe + modern sans for headings -->
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet" />
-
-    <!-- Header / brand -->
-        <header class="brandbar" role="banner">
-          <h1>CAMT OPEN HOUSE 68<span class="cursor">_</span></h1>
-          <div><h2>Code Typing Game!!!<span class="cursor">_</span></h2></div>
-
-        </header>
 </head>
 <body>
+    <div class="header">
+        <div class="challenge-title">🐛 Debug Challenge</div>
+    </div>
     <div class="main-container">
-        <!--Timer Box-->
-          <div class="timer-box" id="timer-box" aria-label="Timer">
-              <span id="timer-minutes">00</span>:<span id="timer-seconds">00</span>
-          </div>
-    
         <div class="left-panel">
             <div class="challenge-info">
                 <h3>🎯 Challenge Description</h3>
-                <p>Fix the <code>calculateSum</code> function to correctly calculate the sum of all numbers in an array. The function has a bug that causes it to fail on certain test cases.</p>
-                
+                <p>ลองแก้โค้ดในฟังก์ชัน <code>calculateSum</code> เพื่อให้สามารถคำนวณผลรวมของตัวเลขในอาร์เรย์ได้อย่างถูกต้อง</p>
+
                 <div class="challenge-requirements">
                     <h4>📋 Expected Behavior:</h4>
                     <ul>
                         <li><code>calculateSum([1,2,3])</code> → <strong>6</strong></li>
-                        <li><code>calculateSum([])</code> → <strong>0</strong></li>
-                        <li><code>calculateSum([10])</code> → <strong>10</strong></li>
-                        <li><code>calculateSum([-1,-2])</code> → <strong>-3</strong></li>
                     </ul>
                 </div>
 
                 <div class="hint-section">
                     <h4>💡 Debugging Tips:</h4>
-                    <p>The bug is in the loop condition. Think about array indices - what's the valid range for accessing array elements?</p>
+                    <p>No hint!</p>
                 </div>
-
-                <div class="challenge-info">
-                    <h3>📊 Test Results</h3>
-                    <p><strong>Status:</strong> <span id="test-status">Not Started</span></p>
-                    <p><strong>Tests Passed:</strong> <span id="tests-passed">0/6</span></p>
-                    <p><strong>Success Rate:</strong> <span id="success-rate">0%</span></p>
-                </div>
-            </div>
-            <div id="nav" class="nav">
-                <p id="page-count" class="page-count"></p>
-                <button id="prev-btn" class="next-btn">Previous</button>
-                <button id="next-btn" class="next-btn">Next</button>
             </div>
         </div>
 
@@ -70,10 +41,9 @@
             
             <div class="terminal-section">
                 <div class="terminal-header">
-                    <div class="terminal-title">🖥️ Console Output</div>
+                    <div class="terminal-title">Output</div>
                     <div>
                         <button class="submit-btn" id="submit-btn" onclick="runCode()">▶️ Run Code</button>
-                        <button class="clear-btn" onclick="clearTerminal()">Clear</button>
                     </div>
                 </div>
                 <div class="terminal-content">
@@ -84,7 +54,6 @@
             </div>
         </div>
     </div>
-
     <script type="module" src="../dist/debug_challenge.js"></script>
 </body>
 </html>
