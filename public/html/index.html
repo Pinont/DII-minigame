@@ -15,34 +15,34 @@
   <header class="brandbar" role="banner">
     <h1>CAMT OPEN HOUSE 68<span class="cursor">_</span></h1>
   </header>
+<body>
+  <div class="main-container">
+    <!-- Main card -->
+    <main id="content">
+      <section class="card" aria-labelledby="join-title">
+        <h2 id="join-title">Join Game</h2>
 
-  <!-- Main card -->
-  <main id="content">
-    <section class="card" aria-labelledby="join-title">
-      <h2 id="join-title">Join Game</h2>
+        <form action="#" method="post" autocomplete="on" novalidate>
+          <div class="field">
+            <label for="code">Join Code</label>
+            <input class="input" id="code" name="code" type="text" inputmode="numeric"
+                   placeholder="Enter Join Code" required />
+          </div>
+          <div class="field">
+            <label for="name">Your Name</label>
+            <input class="input" id="name" name="name" type="text"
+                   placeholder="Enter Your Name" required />
+          </div>
 
-      <form action="#" method="post" autocomplete="on" novalidate>
-        <div class="field">
-          <label for="join-code-input">Join Code</label>
-          <input class="input" id="join-code-input" name="code" type="text"
-                 placeholder="Enter Join Code" value="dii07" required />
-        </div>
-
-        <div class="field">
-          <label for="player-name-input">Your Name</label>
-          <input class="input" id="player-name-input" name="name" type="text"
-                 placeholder="Enter Your Name" required />
-        </div>
-
-        <div class="actions">
-          <button id="join-game-btn" class="btn" type="submit" aria-label="Join Game">
-            <span class="play-icon" aria-hidden="true"></span>
-            Join Game
-          </button>
-        </div>
-      </form>
-    </section>
-  </main>
+          <div class="actions">
+            <button class="btn" type="submit" aria-label="Join Game">
+              <span class="play-icon" aria-hidden="true"></span>
+              Join Game
+            </button>
+          </div>
+        </form>
+      </section>
+    </main>
 
   <!-- Footer -->
   <footer>
