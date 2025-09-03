@@ -33,16 +33,17 @@ h1 { margin-bottom: 10px; }
     #result { margin-top: 15px; font-size: 18px; font-weight: bold; }
     #level { margin: 10px; font-size: 20px; font-weight: bold; }
 
-.result_logic {width:min(720px, 92vw);
-      border-radius:18px;
-      padding:36px clamp(28px, 4vw, 400px);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)) padding-box,
-        radial-gradient(120% 140% at 100% 0%, rgba(224,133,0,.30), transparent 40%) padding-box,
-        radial-gradient(120% 140% at 0% 100%, rgba(0,95,163,.35), transparent 40%) padding-box;
-      box-shadow:
-        0 10px 30px rgba(0,0,0,.45),
-        inset 0 1px 0 rgba(255,255,255,.06);
-      backdrop-filter: blur(14px) saturate(120%);
-      border:1px solid rgba(255,255,255,.10);
-    }
+.result_logic {
+  width:min(720px, 92vw);
+  border-radius:18px;
+  padding:36px clamp(28px, 4vw, 400px);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)) padding-box,
+    radial-gradient(120% 140% at 100% 0%, rgba(224,133,0,.30), transparent 40%) padding-box,
+    radial-gradient(120% 140% at 0% 100%, rgba(0,95,163,.35), transparent 40%) padding-box;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.06);
+  backdrop-filter: blur(14px) saturate(120%);
+  border:1px solid rgba(255,255,255,.10);
+}

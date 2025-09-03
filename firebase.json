@@ -14,6 +14,18 @@
       {
         "source": "/host",
         "destination": "/html/host.html"
+      },
+      {
+        "source": "/debug",
+        "destination": "/html/debug_game.html"
+      },
+      {
+        "source": "/logic",
+        "destination": "/html/logic_game.html"
+      },
+      {
+        "source": "/typing",
+        "destination": "/html/typing_game.html"
       }
     ]
   },
