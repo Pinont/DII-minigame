@@ -26,7 +26,6 @@
 
 .timer-box {
     display: inline-block;
-    float: right;
     align-self: flex-start;
     background: rgba(0, 0, 0, 0.15);
     color: #fff;
