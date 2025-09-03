@@ -1,4 +1,4 @@
-import { getQuiz } from "./utils/Quiz.js";
+import { getQuiz } from "./utils/quiz.js";
 
 let quizNumber = 0;
 
