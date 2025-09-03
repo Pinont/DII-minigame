@@ -19,9 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
       joinCode = joinCode.toLowerCase();
 
       if (joinCode === "debug") {
-        window.location.href = "./debug_challenge.html";
+        window.location.href = "./debug_game.html";
       } else if (joinCode === "typing") {
-        window.location.href = "./code_typing.html";
+        window.location.href = "./typing_game.html";
       } else if (joinCode === "logic") {
         window.location.href = "./logic_game.html";
       } else {
