@@ -16,15 +16,15 @@
         "destination": "/html/host.html"
       },
       {
-        "source": "/debug",
+        "source": "/debug_game.html",
         "destination": "/html/debug_game.html"
       },
       {
-        "source": "/logic",
+        "source": "/logic_game.html",
         "destination": "/html/logic_game.html"
       },
       {
-        "source": "/typing",
+        "source": "/typing_game.html",
         "destination": "/html/typing_game.html"
       }
     ]
