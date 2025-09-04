@@ -11,9 +11,9 @@ const levels: Level[] = [
     correct: ["start", "walk", "end"],
   },
   {
-    objective: "น้องหมีต้องไปเรียนแต่ถ้าฝนตกน้องต้องหยิบร่มไปด้วย",
-    blocks: ["start", "ตื่นนอน", "อาบน้ำ", "แต่งตัว","ไปโรงเรียน","IF","ฝนตก","หยิบร่ม", "end"],
-    correct: ["start", "ตื่นนอน", "อาบน้ำ", "แต่งตัว","IF","ฝนตก","หยิบร่ม","ไปโรงเรียน", "end"],
+    objective: "Make the robot walk, then jump, then stop.",
+    blocks: ["start", "walk", "jump", "end"],
+    correct: ["start", "walk", "jump", "end"],
   },
   {
     objective: "Make the robot pick an item, walk, jump, then stop.",
