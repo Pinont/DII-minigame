@@ -2,59 +2,32 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>Flowchart Puzzle</title>
-  <style>
-    body { font-family: sans-serif; background: #f4f4f4; padding: 20px; }
-    h2 { margin-bottom: 10px; }
-    #blocks, #dropzone {
-      list-style: none; padding: 10px; min-height: 100px;
-      border: 2px dashed #999; background: white;
-    }
-    li {
-      padding: 8px; margin: 5px; background: #4caf50; color: white;
-      cursor: grab; border-radius: 6px; text-align: center;
-    }
-  </style>
+  <title>Flowchart Puzzle with IF</title>
+  <link rel="stylesheet" href="../css/minigame.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/logic_game.css">
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+  <script src="../dist/logic_game.js" defer></script>
 </head>
 <body>
-  <h2>Level 2: ถ้าฝนตกต้องหยิบร่ม</h2>
-  <p>Objective: จัดเรียงบล็อกให้ถูกต้อง</p>
-
-  <h3>บล็อกที่ให้</h3>
-  <ul id="blocks">
-    <li>Start</li>
-    <li>ตื่นนอน</li>
-    <li>อาบน้ำ</li>
-    <li>แต่งตัว</li>
-    <li>IF ฝนตก?</li>
-    <li>หยิบร่ม</li>
-    <li>ไปโรงเรียน</li>
-    <li>End</li>
-    <li>เล่นเกม</li>
-  </ul>
-
-  <h3>เรียงบล็อกที่นี่</h3>
-  <ul id="dropzone"></ul>
-
-  <button onclick="checkAnswer()">ตรวจคำตอบ</button>
-  <p id="result"></p>
-
-  <script>
-    new Sortable(blocks, { group: 'shared', animation: 150 });
-    new Sortable(dropzone, { group: 'shared', animation: 150 });
-
-    function checkAnswer() {
-      const correct = ["Start","ตื่นนอน","อาบน้ำ","แต่งตัว","IF ฝนตก?","หยิบร่ม","ไปโรงเรียน","End"];
-      const userAns = Array.from(document.querySelectorAll('#dropzone li')).map(li => li.innerText);
-
-      let result = document.getElementById('result');
-      if (JSON.stringify(userAns) === JSON.stringify(correct)) {
-        result.innerText = "✅ ถูกต้อง! น้องหมีไปโรงเรียนพร้อมร่มแล้ว";
-      } else {
-        result.innerText = "❌ ยังไม่ถูก ลองเรียงใหม่อีกครั้ง";
-      }
-    }
-  </script>
+  <header class="brandbar" role="banner">
+    <h1>CAMT OPEN HOUSE 68<span class="cursor">_</span></h1>
+    <div><h2>Flowchart Puzzle Game!!!<span class="cursor">_</span></h2></div>
+  </header>
+  <div class="container">
+    <div class="minigameUI_card">
+      <div>
+        <label for="level-select">เลือกข้อ:</label>
+        <select id="level-select">
+          <!-- ตัวเลือกจะถูกเพิ่มด้วย JavaScript -->
+        </select>
+      </div>
+      <div id="questions"></div>
+      <p id="result" class="result"></p>
+    </div>
+    <button id="prev-btn" disabled>ก่อนหน้า</button>
+    <button id="next-btn">ถัดไป</button>
+  </div>
 </body>
+</html>
 </html>

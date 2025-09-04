@@ -34,7 +34,9 @@
       display:grid;
       grid-template-rows:auto 1fr auto;
       min-height:100dvh;
-      overflow-x:hidden;
+      max-height: 100dvh; /* จำกัดความสูงของ body */
+      overflow-y: auto; /* เปิดการเลื่อนในแนวตั้ง */
+      overflow-x: hidden; /* ปิดการเลื่อนในแนวนอน */
     }
 
     body {
@@ -89,6 +91,8 @@
         inset 0 1px 0 rgba(255,255,255,.06);
       backdrop-filter: blur(14px) saturate(120%);
       border:1px solid rgba(255,255,255,.10);
+      max-width: 100%; /* ป้องกันการขยายเกินขอบเขต */
+      overflow: hidden; /* ซ่อนคอนเทนต์ที่ล้น */
     }
 
     .card h2{
@@ -192,4 +196,10 @@
     @media (prefers-reduced-motion: reduce){
       .cursor{animation:none}
       .btn,.input{transition:none}
+    }
+
+    .container {
+      max-height: 90vh; /* จำกัดความสูงของคอนเทนเนอร์ */
+      overflow-y: auto; /* เปิดการเลื่อนในแนวตั้ง */
+      padding: 1rem; /* เพิ่มระยะห่างภายใน */
     }
