@@ -11,14 +11,11 @@
 
         <!-- Monospace for coding vibe + modern sans for headings -->
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;800&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet" />
+        <script type="module" src="../dist/typing_game.js" defer></script>
     </head>
     <!-- Header / brand -->
   <header class="brandbar" role="banner">
     <h1>Typing-code GAME<span class="cursor">_</span></h1>
-    <!--Timer Box-->
-    <div class="timer-box" id="timer-box" aria-label="Timer">
-        <span id="timer-minutes">00</span>:<span id="timer-seconds">00</span>
-    </div>
     
     <div><h2>Code Typing Game!!!<span class="cursor">_</span></h2></div>
     
@@ -29,17 +26,20 @@
     
     <div class="section-row">
         <section class="minigameUI_card" aria-labelledby="Pototype-card">
-            <h1>Pototype</h1>
-            <p>This is a prototype of the code typing game for CAMT Open House 68. The game is designed to help users improve their coding skills in a fun and interactive way. Players will be challenged to type out code snippets as quickly and accurately as possible.</p>
+            <h1 id="title">Question name</h1>
+            <br>
+            <div id="target">
+              System.out.print("Hello, World!");
+            </div>
         </section>
         <section class="minigameUI_card" aria-labelledby="Typing-code">
             <div class="field">
-                <label for="name">Typing Code</label>
-                <textarea class="input" id="name" name="name" type="text"
+                <label for="input">Typing Code</label>
+                <textarea class="input" id="input" name="input" type="text"
                  placeholder="Enter code here" required rows="6" style="font-family: 'Source Code Pro', monospace;"></textarea>
             </div>
             <div class="actions">
-                <button class="btn" type="submit" aria-label="submit">
+                <button id="submit" class="btn" type="submit" aria-label="submit">
                 Summit
                 </button>
             </div>
