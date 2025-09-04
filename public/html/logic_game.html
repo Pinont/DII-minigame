@@ -2,14 +2,12 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>Flowchart Puzzle</title>
+  <title>Flowchart Puzzle with Scratch-Style IF</title>
   <link rel="stylesheet" href="../css/minigame.css">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/logic_game.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-  <script src="../dist/logic_game.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
-
+  <script src="../dist/logic_game.js" defer></script>
   <header class="brandbar" role="banner">
     <h1>CAMT OPEN HOUSE 68<span class="cursor">_</span></h1>
     <div><h2>Flowchart Puzzle Game!!!<span class="cursor">_</span></h2></div>
@@ -17,11 +15,12 @@
 </head>
 <body>
   <div class="container">
-    <header class="level-header">
-      <h2 id="level-title">Level 1: IF ฝนตก → หยิบร่ม</h2>
-      <p id="level-description">ลากบล็อกเข้าไปใน Branch True/False ของ IF ได้</p>
-    </header>
-      <!-- Dropdown สำหรับเลือกข้อ -->
+  <header class="level-header">
+    <h2 id="level-title">Level 1: IF ฝนตก → หยิบร่ม</h2>
+    <p id="level-description">ลากบล็อกเข้าไปใน Branch True/False ของ IF ได้</p>
+  </header>
+
+  <!-- Dropdown สำหรับเลือกข้อ -->
   <label for="level-select">เลือกข้อ:</label>
   <select id="level-select" onchange="selectLevel()" class="level-select">
     <option value="0">Level 1</option>
@@ -35,18 +34,17 @@
     <option value="8">Level 9</option>
     <option value="9">Level 10</option>
   </select>
-    <h3>บล็อกที่ให้</h3>
-    <ul id="blocks" class="list"></ul>
 
-    <h3>Flow หลัก</h3>
-    <ul id="dropzone" class="list"></ul>
+  <h3>บล็อกที่ให้</h3>
+  <ul id="blocks" class="list"></ul>
 
-    <button onclick="checkAnswer()" class="btn_submitlogic">ตรวจคำตอบ</button>
-    <div class="result">
-      <p id="result"></p>
-    </div>
+  <h3>Flow หลัก</h3>
+  <ul id="dropzone" class="list"></ul>
+
+  <button onclick="checkAnswer()" class="btn_submitlogic">ตรวจคำตอบ</button>
+  <div class="result">
+    <p id="result"></p>
   </div>
-
- 
+</div>
 </body>
 </html>

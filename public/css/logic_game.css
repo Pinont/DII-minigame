@@ -8,26 +8,21 @@ body { font-family: sans-serif;
     h2 { margin-bottom: 10px; }
     .list {
       list-style: none; padding: 10px; min-height: 60px;
-      box-shadow: 0 0.125rem 0.5rem rgba(0,0,0,2);
-      border-radius: 2rem;  
       margin: 10px 0;
+      box-shadow: inset 0 0.125rem 0.5rem rgba(0,0,0,2);
+      border-radius: 0.70rcap;
     }
     li {
       padding: 8px; margin: 5px; background: #4caf50; 
       color: white; cursor: grab; border-radius: 6px;
     }
     .block {
-      background: #0077ff;
-      border: 1px solid #4a90e2;
-      padding: 6px 10px;
-      border-radius: 6px;
-      margin: 4px 0;
+      padding: 8px;
+      margin: 5px;
+      background: #4caf50;
+      color: white;
       cursor: grab;
-    }
-    .if-title {
-      font-weight: bold;
-      color: #004a99;
-      margin-bottom: 5px;
+      border-radius: 6px;
     }
     .if-block {
       background: #ff9800;
@@ -36,6 +31,11 @@ body { font-family: sans-serif;
       border-radius: 6px;
       margin: 8px 0;
       cursor: grab;
+    }
+    .if-title {
+      font-weight: bold;
+      color: #004a99;
+      margin-bottom: 5px;
     }
     .branch {
       border: 2px dashed #666;
@@ -61,8 +61,6 @@ body { font-family: sans-serif;
         inset 0 0.0625rem 0 rgba(255,255,255,.06);
       backdrop-filter: blur(0.875rem) saturate(120%);
       border: 0.0625rem solid rgba(255,255,255,.10);
-      align-items: center;
-      justify-content: center;
 }
     .btn_submitlogic {
       --_ring: rgba(0,95,163,.38);
@@ -82,6 +80,7 @@ body { font-family: sans-serif;
       align-items: center;
       min-width: 360px;
       gap: 0.625rem;
+      margin: 20px auto; /* เพิ่มระยะห่างและจัดให้อยู่ตรงกลาง */
     }
     .btn_submitlogic:hover { filter: saturate(115%); }
     .btn_submitlogic:active { transform: translateY(0.0625rem); }
