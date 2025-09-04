@@ -1,3 +1,5 @@
+import { getQuiz } from "./utils/quiz.js";
+
 // Game state
 let currentQuestion: any = null;
 let currentCode = "";
@@ -6,9 +8,11 @@ let allQuestions: any[] = [];
 let currentQuestionIndex = 0;
 
 document.addEventListener("DOMContentLoaded", async () => {
-  await loadQuestions();
-  setupInputHandler();
-  setupSubmitHandler();
+    currentQuestionIndex = getQuiz();
+    console.log("Starting quiz at index:", currentQuestionIndex);
+    await loadQuestions();
+    setupInputHandler();
+    setupSubmitHandler();
 });
 
 async function loadQuestions() {
@@ -18,7 +22,6 @@ async function loadQuestions() {
           throw new Error(`HTTP error! status: ${response.status}`);
       }
       allQuestions = await response.json();
-      currentQuestionIndex = 0;
       displayQuestion(allQuestions[currentQuestionIndex]);
   } catch (error) {
       console.error('Error loading questions:', error);

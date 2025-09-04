@@ -213,6 +213,14 @@ function updateChallengeInfo(
   quiz: QuizData["questions"],
   challenge: DebugChallengeQuestion
 ): void {
+  // Update title with Question x/max format
+  const titleElement = document.getElementById("title") as HTMLElement;
+  if (titleElement) {
+    const totalQuestions = getQuestions().length;
+    const currentQuestionNumber = quizNumber + 1;
+    titleElement.textContent = `Question ${currentQuestionNumber}/${totalQuestions}: ${challenge.question}`;
+  }
+
   // Update description
   const challengeInfoElement = document.querySelector(
     ".challenge-info p"
