@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const urlParams = new URLSearchParams(window.location.search);
   quizNumber = getQuiz();
   if (quizNumber < 0 || quizNumber > getQuestions().length - 1) {
-    window.location.href = "?quiz=0";
+    window.location.href = "?quiz=1";
   }
 
   // Load challenge data
@@ -571,7 +571,7 @@ function resetChallenge(): void {
 
 // Function to show popup and navigate to next question
 function showNextQuestionPopup(): void {
-  const nextQuizNumber = quizNumber + 1;
+  const nextQuizNumber = quizNumber + 2;
 
   const maxQuiz = questionsData
     ? questionsData.questions.questions.length
