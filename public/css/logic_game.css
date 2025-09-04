@@ -10,8 +10,7 @@ h1 { margin-bottom: 10px; }
     }
 .dropzone{
   width: 100%; /* ขยายเต็มกรอบนอก */
-  height: 100%; /* กำหนดความสูง */
-  padding: 10px; /* เพิ่มระยะห่างภายใน */
+  padding: 50px; /* เพิ่มระยะห่างภายใน */
   margin: 15px;
   border-radius: 10px; /* มุมโค้ง */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* เพิ่มเงา */
