@@ -328,6 +328,13 @@ async function initializeEditor(codeContent: string): Promise<void> {
           }
         );
 
+        // Start timer when user starts editing
+        debugState.editor.onDidChangeModelContent(() => {
+          if (!debugState.startTime) {
+            startTimer();
+          }
+        });
+
         resolve();
       });
     } else {
