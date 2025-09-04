@@ -9,6 +9,7 @@
       --peach-300:#F2B885;
       --peach-200:#F5CDA3;
       --white:#ffffff;
+      --font-primary: 'Roboto', sans-serif; /* เปลี่ยนฟอนต์หลัก */
     }
     * {
     margin: 0;
@@ -29,16 +30,18 @@
         radial-gradient(1000px 500px at 15% 20%, rgba(0,0,0,0.35) 0%, transparent 60%) no-repeat,
         radial-gradient(1000px 500px at 85% 80%, rgba(0,0,0,0.35) 0%, transparent 60%) no-repeat,
         var(--navy-900);
-      font-family: "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-family: var(--font-primary), "Source Code Pro", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
       -webkit-font-smoothing: antialiased;
       display:grid;
       grid-template-rows:auto 1fr auto;
       min-height:100dvh;
-      overflow-x:hidden;
+      max-height: 100dvh; /* จำกัดความสูงของ body */
+      overflow-y: auto; /* เปิดการเลื่อนในแนวตั้ง */
+      overflow-x: hidden; /* ปิดการเลื่อนในแนวนอน */
     }
 
     body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: var(--font-primary), "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
     background-color: #1e1e1e;
     color: #ffffff;
     height: 100vh;
@@ -89,6 +92,8 @@
         inset 0 1px 0 rgba(255,255,255,.06);
       backdrop-filter: blur(14px) saturate(120%);
       border:1px solid rgba(255,255,255,.10);
+      max-width: 100%; /* ป้องกันการขยายเกินขอบเขต */
+      overflow: hidden; /* ซ่อนคอนเทนต์ที่ล้น */
     }
 
     .card h2{
@@ -192,4 +197,10 @@
     @media (prefers-reduced-motion: reduce){
       .cursor{animation:none}
       .btn,.input{transition:none}
+    }
+
+    .container {
+      max-height: 90vh; /* จำกัดความสูงของคอนเทนเนอร์ */
+      overflow-y: auto; /* เปิดการเลื่อนในแนวตั้ง */
+      padding: 1rem; /* เพิ่มระยะห่างภายใน */
     }
