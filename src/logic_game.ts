@@ -255,23 +255,46 @@ function loadLevel(levelIndex: number) {
 }
 function checkAnswer() {
   const level = levels[currentLevel];
+
+  // ดึงข้อมูลจาก Flow หลัก
   const mainFlow = Array.from(
     document.querySelectorAll("#dropzone > .block, #dropzone > .if-block")
-  ).map((el) => (el as HTMLElement).innerText.split("\n")[0]); // แค่ชื่อบล็อก
+  ).map((el) => {
+    const text = (el as HTMLElement).innerText.trim();
+    // ลบข้อความ TRUE และ FALSE branch ออกจากบล็อก IF
+    return text.includes("TRUE") || text.includes("FALSE")
+      ? text.split("\n")[0] // แยกเฉพาะข้อความก่อน newline
+      : text;
+  });
+
+  // ดึงข้อมูลจาก TRUE branch
   const trueBranch = Array.from(document.querySelectorAll(".branch-label"))
     .filter((label) => (label as HTMLElement).innerText.includes("TRUE"))
     .map((label) => label.nextElementSibling)
     .filter((branch) => branch !== null)
     .flatMap((branch) => Array.from(branch.querySelectorAll(".block")))
+    .map((el) => (el as HTMLElement).innerText.trim());
+
+  // ดึงข้อมูลจาก FALSE branch
   const falseBranch = Array.from(document.querySelectorAll(".branch-label"))
     .filter((label) => (label as HTMLElement).innerText.includes("FALSE"))
     .map((label) => label.nextElementSibling)
     .filter((branch) => branch !== null)
     .flatMap((branch) => Array.from(branch.querySelectorAll(".block")))
-    .map((el) => (el as HTMLElement).innerText);
+    .map((el) => (el as HTMLElement).innerText.trim());
+
+  // Debug: แสดงข้อมูลที่ดึงมา
+  console.log("mainFlow:", mainFlow);
+  console.log("trueBranch:", trueBranch);
+  console.log("falseBranch:", falseBranch);
+  console.log("correctMain:", level.correctMain);
+  console.log("correctTrue:", level.correctTrue);
+  console.log("correctFalse:", level.correctFalse);
+
+  // ตรวจสอบผลลัพธ์
   let result = document.getElementById("result");
   if (!result) return;
-  
+
   if (
     JSON.stringify(mainFlow) === JSON.stringify(level.correctMain) &&
     JSON.stringify(trueBranch) === JSON.stringify(level.correctTrue) &&
