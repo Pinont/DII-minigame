@@ -1,32 +1,31 @@
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
 
-  const joinButton = document.getElementById("btn");
-  const joinCodeInput = document.getElementById("code");
+  const debugButton = document.getElementById("debug-btn");
+  const typingButton = document.getElementById("typing-btn");
+  const logicButton = document.getElementById("logic-btn");
 
-  if (joinButton && joinCodeInput) {
+  // Debug Game Button
+  if (debugButton) {
+    debugButton.addEventListener("click", (e) => {
+      console.log("Starting debug game");
+      window.location.href = "./debug_game.html?quiz=1";
+    });
+  }
 
-    joinButton.addEventListener("click", async (e) => {
-      let joinCode = (joinCodeInput as HTMLInputElement).value.trim();
+  // Typing Game Button
+  if (typingButton) {
+    typingButton.addEventListener("click", (e) => {
+      console.log("Starting typing game");
+      window.location.href = "./typing_game.html?quiz=1";
+    });
+  }
 
-      console.log("Joining game with code:", joinCode);
-
-      if (!joinCode) {
-        alert("Please enter a join code.");
-        return;
-      }
-
-      joinCode = joinCode.toLowerCase();
-
-      if (joinCode === "debug") {
-        window.location.href = "./debug_game.html";
-      } else if (joinCode === "typing") {
-        window.location.href = "./typing_game.html";
-      } else if (joinCode === "logic") {
-        window.location.href = "./logic_game.html";
-      } else {
-        alert("Unknown or game not exist");
-      }
+  // Logic Game Button
+  if (logicButton) {
+    logicButton.addEventListener("click", (e) => {
+      console.log("Starting logic game");
+      window.location.href = "./logic_game.html?quiz=1";
     });
   }
 });

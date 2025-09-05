@@ -1,6 +1,9 @@
 // Dynamic import for Sortable
 declare var Sortable: any;
 
+// Configuration: Limit how many questions to display (default: all questions)
+let maxQuestionsToDisplay: number | null = null;
+
 const levels = [
   {
     title: "Level 1: IF ฝนตก → หยิบร่ม",
@@ -191,7 +194,19 @@ const levels = [
     correctFalse: [],
   },
 ];
+
 let currentLevel = 0;
+
+// Function to get filtered levels based on maxQuestionsToDisplay
+function getLevels() {
+  // Apply question limit if set
+  if (maxQuestionsToDisplay !== null && maxQuestionsToDisplay > 0) {
+    return levels.slice(0, maxQuestionsToDisplay);
+  }
+  
+  return levels;
+}
+
 function createIfBlock(label: string) {
   const wrapper = document.createElement("li");
   wrapper.className = "if-block";
@@ -209,20 +224,22 @@ function createIfBlock(label: string) {
   wrapper.appendChild(falseDiv);
   return wrapper;
 }
-function selectLevel() {
-  const levelSelectElement = document.getElementById("level-select") as HTMLSelectElement;
-  if (!levelSelectElement) return;
-  const selectedLevel = levelSelectElement.value;
-  currentLevel = parseInt(selectedLevel, 10); // เปลี่ยนค่าที่เลือกเป็นตัวเลข
-  loadLevel(currentLevel); // โหลดโจทย์ที่เลือก
-}
+
 function loadLevel(levelIndex: number) {
-  const level = levels[levelIndex];
+  const availableLevels = getLevels();
+  const level = availableLevels[levelIndex];
+  if (!level) return; // Check if level exists
+  
   const levelTitleElement = document.getElementById("level-title");
   const levelDescriptionElement = document.getElementById("level-description");
   const blocksContainer = document.getElementById("blocks");
   
-  if (levelTitleElement) levelTitleElement.innerText = level.title;
+  if (levelTitleElement) {
+    // Show level number with total available levels
+    const totalLevels = availableLevels.length;
+    const currentLevelNumber = levelIndex + 1;
+    levelTitleElement.innerText = `Level ${currentLevelNumber}/${totalLevels}: ${level.title.replace(/^Level \d+: /, '')}`;
+  }
   if (levelDescriptionElement) levelDescriptionElement.innerText = level.description;
   if (!blocksContainer) return;
   
@@ -250,7 +267,9 @@ function loadLevel(levelIndex: number) {
   });
 }
 function checkAnswer() {
-  const level = levels[currentLevel];
+  const availableLevels = getLevels();
+  const level = availableLevels[currentLevel];
+  if (!level) return; // Check if level exists
 
   // ดึงข้อมูลจาก Flow หลัก
   const mainFlow = Array.from(
@@ -297,14 +316,195 @@ function checkAnswer() {
     JSON.stringify(falseBranch) === JSON.stringify(level.correctFalse)
   ) {
     result.innerText = "✅ ถูกต้อง! IF ทำงานตามโจทย์แล้ว";
+    
+    // Check if this is the last level and show completion popup
+    setTimeout(() => {
+      showCompletionPopup();
+    }, 1000);
   } else {
     result.innerText = "❌ ยังไม่ถูก ลองลากบล็อกใหม่อีกครั้ง";
+  }
+}
+
+// Function to show completion popup and navigate to next level
+function showCompletionPopup() {
+  const availableLevels = getLevels();
+  const isLastLevel = currentLevel >= availableLevels.length - 1;
+  
+  // Create popup HTML similar to other games
+  const popupHTML = `
+    <div id="completion-popup" style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      font-family: 'Inter', sans-serif;
+    ">
+      <div style="
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        text-align: center;
+        max-width: 400px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      ">
+        <h2 style="color: #4CAF50; margin-bottom: 20px; font-size: 1.5rem;">🎉 Well Done!</h2>
+        <p style="margin-bottom: 20px; color: #333;">
+          You've successfully completed:<br><strong>Level ${currentLevel + 1}</strong>
+        </p>
+        ${isLastLevel ? `
+          <p style="color: #4CAF50; font-weight: bold; margin-bottom: 30px;">All levels completed! 🎊</p>
+          <button id="restart-all-btn" style="
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.2s ease;
+          ">Restart All</button>
+        ` : `
+          <p style="margin-bottom: 30px; color: #666; font-size: 0.9em;">
+            Press Enter to continue or click the button below
+          </p>
+          <button id="next-level-btn" style="
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.2s ease;
+          ">⏎ Next Level</button>
+        `}
+      </div>
+    </div>
+  `;
+  
+  // Add popup to DOM
+  document.body.insertAdjacentHTML('beforeend', popupHTML);
+  
+  // Add event listeners
+  const nextBtn = document.getElementById('next-level-btn');
+  const restartBtn = document.getElementById('restart-all-btn');
+  const popup = document.getElementById('completion-popup');
+  
+  // Handle next level button
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      document.removeEventListener('keydown', handleEnterKey);
+      if (popup) popup.remove();
+      goToNextLevel();
+    });
+    
+    // Add hover effect
+    nextBtn.addEventListener('mouseenter', () => {
+      nextBtn.style.background = '#45a049';
+    });
+    nextBtn.addEventListener('mouseleave', () => {
+      nextBtn.style.background = '#4CAF50';
+    });
+  }
+  
+  // Handle restart button
+  if (restartBtn) {
+    restartBtn.addEventListener('click', () => {
+      // Preserve max parameter if it exists
+      const urlParams = new URLSearchParams(window.location.search);
+      const maxParam = urlParams.get('max');
+      const restartUrl = maxParam ? `?quiz=1&max=${maxParam}` : "?quiz=1";
+      window.location.href = restartUrl;
+    });
+    
+    // Add hover effect
+    restartBtn.addEventListener('mouseenter', () => {
+      restartBtn.style.background = '#ff5252';
+    });
+    restartBtn.addEventListener('mouseleave', () => {
+      restartBtn.style.background = '#ff6b6b';
+    });
+  }
+  
+  // Add Enter key listener for next level
+  const handleEnterKey = (e: KeyboardEvent) => {
+    if (e.key === 'Enter' && !isLastLevel) {
+      document.removeEventListener('keydown', handleEnterKey);
+      if (popup) popup.remove();
+      goToNextLevel();
+    }
+  };
+  
+  if (!isLastLevel) {
+    document.addEventListener('keydown', handleEnterKey);
+  }
+  
+  // Close popup when clicking outside (optional)
+  if (popup) {
+    popup.addEventListener('click', (e) => {
+      if (e.target === popup && !isLastLevel) {
+        document.removeEventListener('keydown', handleEnterKey);
+        popup.remove();
+      }
+    });
+  }
+}
+
+// Function to navigate to next level
+function goToNextLevel() {
+  const nextLevelNumber = currentLevel + 2; // Convert to 1-based for URL
+  const availableLevels = getLevels();
+  
+  if (currentLevel < availableLevels.length - 1) {
+    // Preserve max parameter if it exists
+    const urlParams = new URLSearchParams(window.location.search);
+    const maxParam = urlParams.get('max');
+    const nextUrl = maxParam ? `?quiz=${nextLevelNumber}&max=${maxParam}` : `?quiz=${nextLevelNumber}`;
+    window.location.href = nextUrl;
   }
 }
 
 // Initialize the game when DOM and Sortable are ready
 function initializeGame() {
   if (typeof Sortable !== 'undefined') {
+    // Handle URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const maxParam = urlParams.get('max');
+    const quizParam = urlParams.get('quiz');
+    
+    // Set maxQuestionsToDisplay from URL parameter or default to all levels
+    if (maxParam && !isNaN(parseInt(maxParam)) && parseInt(maxParam) > 0) {
+      maxQuestionsToDisplay = parseInt(maxParam);
+    } else if (maxQuestionsToDisplay === null) {
+      maxQuestionsToDisplay = levels.length;
+    }
+    
+    // Set current level from quiz parameter
+    if (quizParam && !isNaN(parseInt(quizParam))) {
+      const quizNumber = parseInt(quizParam) - 1; // Convert to 0-based index
+      const availableLevels = getLevels();
+      
+      // Validate quiz number
+      if (quizNumber >= 0 && quizNumber < availableLevels.length) {
+        currentLevel = quizNumber;
+      } else {
+        // Redirect to valid quiz number
+        const maxParam = urlParams.get('max');
+        const redirectUrl = maxParam ? `?quiz=1&max=${maxParam}` : "?quiz=1";
+        window.location.href = redirectUrl;
+        return;
+      }
+    }
+    
     loadLevel(currentLevel);
   } else {
     // If Sortable is not yet loaded, wait a bit and try again
@@ -320,5 +520,4 @@ if (document.readyState === 'loading') {
 }
 
 // Make functions available globally for HTML onclick handlers
-(window as any).selectLevel = selectLevel;
 (window as any).checkAnswer = checkAnswer;

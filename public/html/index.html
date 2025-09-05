@@ -9,7 +9,7 @@
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://dii-minigame.web.app">
         <meta property="og:title" content="DII CAMT - OPEN HOUSE 68">
-        <meta property="og:description" content="Welcome to DII CAMT Open House 68 - Backend Challenges">
+        <meta property="og:description" content="Welcome to DII CAMT Open House 68 - Choose Your Challenge">
         <meta property="og:image" content="https://www.camt.cmu.ac.th/wp-content/uploads/2025/08/WEBB-scaled.gif">
         
         <link rel="stylesheet" href="../css/style.css">
@@ -27,22 +27,26 @@
     <!-- Main card -->
     <main id="content">
       <section class="card" aria-labelledby="join-title">
-        <h2 id="join-title">Join Game</h2>
+        <h2 id="join-title">Choose Your Game</h2>
 
-        <form onsubmit="return false;">
-          <div class="field">
-            <label for="code">Join Code</label>
-            <input class="input" id="code" name="code" type="text"
-                   placeholder="Enter Join Code" required />
-          </div>
-
+        <div class="game-selection">
           <div class="actions">
-            <button id="btn" class="btn" type="submit" aria-label="Join Game">
-              <span class="play-icon" aria-hidden="true"></span>
-              Join Game
+            <button id="debug-btn" class="btn game-btn" type="button" aria-label="Start Debug Game">
+              <span class="play-icon" aria-hidden="true">🐛</span>
+              Debug
+            </button>
+            
+            <button id="typing-btn" class="btn game-btn" type="button" aria-label="Start Typing Game">
+              <span class="play-icon" aria-hidden="true">⌨️</span>
+              Typing
+            </button>
+            
+            <button id="logic-btn" class="btn game-btn" type="button" aria-label="Start Logic Game">
+              <span class="play-icon" aria-hidden="true">🧠</span>
+              Logic
             </button>
           </div>
-        </form>
+        </div>
       </section>
     </main>
 

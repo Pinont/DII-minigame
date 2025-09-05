@@ -139,6 +139,29 @@
       justify-content:center;
     }
 
+    /* Game selection specific styling */
+    .game-selection .actions {
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .game-btn {
+      width: 100%;
+      min-width: 200px;
+      justify-content: center;
+      padding: 18px 24px;
+      font-size: 18px;
+    }
+
+    .game-btn .play-icon {
+      /* Reset the triangle for emoji icons */
+      border: none;
+      width: auto;
+      height: auto;
+      filter: none;
+      font-size: 20px;
+    }
+
     .btn{
       --_ring: rgba(0,95,163,.38);
       padding:14px 22px;
