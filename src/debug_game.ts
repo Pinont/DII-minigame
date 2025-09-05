@@ -242,7 +242,7 @@ function updateChallengeInfo(
       const inputDisplay = Array.isArray(testcase.input)
         ? `[${testcase.input.join(",")}]`
         : `"${testcase.input}"`;
-      li.innerHTML = `<code>${challenge.functionName}(${inputDisplay})</code> → <strong>${testcase.expected}</strong>`;
+      li.innerHTML = `<code>${inputDisplay}</code> → <strong>${testcase.expected}</strong>`;
       examplesList.appendChild(li);
     });
   }
