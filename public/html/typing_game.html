@@ -14,7 +14,7 @@
     </head>
     <!-- Header / brand -->
   <header class="brandbar" role="banner">
-    <h1>CAMT OPEN HOUSE 68<span class="cursor">_</span></h1>
+    <h1><a href="./index.html">CAMT OPEN HOUSE 68</a><span class="cursor">_</span></h1>
     
     <div><h2>Code Typing Game!!!<span class="cursor">_</span></h2></div>
     
@@ -22,26 +22,21 @@
 
   <!-- Main card -->
   <main id="content">
-    
     <div class="section-row">
-        <section class="minigameUI_card" aria-labelledby="Pototype-card">
+        <section class="minigameUI_card main-typing-area">
             <h1 id="title">Question name</h1>
             <br>
-            <div id="target">
+            <!-- Code display with MonkeyType style -->
+            <div id="target" class="code-display">
               System.out.print("Hello, World!");
             </div>
-        </section>
-        <section class="minigameUI_card" aria-labelledby="Typing-code">
-            <div class="field">
-                <label for="input">Typing Code</label>
-                <textarea class="input" id="input" name="input" type="text"
-                 placeholder="Enter code here" required rows="6" style="font-family: 'Source Code Pro', monospace;"></textarea>
-            </div>
-            <div class="actions">
-                <button id="submit" class="btn" type="submit" aria-label="submit">
-                Summit
-                </button>
-            </div>
+            
+            <!-- Input overlay (invisible but captures typing) -->
+            <textarea id="input" class="typing-input"
+                     autocomplete="off" 
+                     autocorrect="off" 
+                     autocapitalize="off" 
+                     spellcheck="false"></textarea>
         </section>
     </div>
   </main>

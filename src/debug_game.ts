@@ -2,6 +2,9 @@ import { getQuiz } from "./utils/quiz.js";
 
 let quizNumber = 0;
 
+// Configuration: Limit how many questions to display (default: all questions)
+let maxQuestionsToDisplay: number | null = null;
+
 // Type declarations for module="None" compatibility
 interface DebugChallengeQuestion {
   id: number;
@@ -46,56 +49,74 @@ let questionsData: QuizData | null = null;
 document.addEventListener("DOMContentLoaded", async () => {
   // Load questions data first
   await loadQuestionsData();
-  // get param quiz=?
+  
+  // Get URL parameters
   const urlParams = new URLSearchParams(window.location.search);
+  const maxParam = urlParams.get('max');
+  
+  // Set maxQuestionsToDisplay from URL parameter or default to all questions
+  if (maxParam && !isNaN(parseInt(maxParam)) && parseInt(maxParam) > 0) {
+    maxQuestionsToDisplay = parseInt(maxParam);
+  } else if (maxQuestionsToDisplay === null) {
+    maxQuestionsToDisplay = questionsData?.questions.questions.length || 0;
+  }
+  
+  // get param quiz=?
   quizNumber = getQuiz();
-  if (quizNumber < 0 || quizNumber > getQuestions().length - 1) {
-    window.location.href = "?quiz=1";
+  if (quizNumber < 0 || quizNumber >= getQuestions().length) {
+    // Preserve max parameter if it exists when redirecting
+    const urlParams = new URLSearchParams(window.location.search);
+    const maxParam = urlParams.get('max');
+    const redirectUrl = maxParam ? `?quiz=1&max=${maxParam}` : "?quiz=1";
+    window.location.href = redirectUrl;
   }
 
   // Load challenge data
   if (questionsData && questionsData.questions.questions.length > 0) {
-    // Get the first challenge (can be extended to support multiple challenges)
-    debugState.currentChallenge = questionsData.questions.questions[quizNumber];
+    // Get the challenge from filtered questions
+    const filteredQuestions = getQuestions();
+    if (quizNumber < filteredQuestions.length) {
+      debugState.currentChallenge = filteredQuestions[quizNumber];
 
-    if (debugState.currentChallenge) {
-      try {
-        // Load the code file
-        console.log(
-          "Loading code file from:",
-          `../resources/debug_challenge/${debugState.currentChallenge.codepath}`
-        );
-        const codeResponse = await fetch(
-          `../resources/debug_challenge/${debugState.currentChallenge.codepath}`
-        );
+      if (debugState.currentChallenge) {
+        try {
+          // Load the code file
+          console.log(
+            "Loading code file from:",
+            `../resources/debug_challenge/${debugState.currentChallenge.codepath}`
+          );
+          const codeResponse = await fetch(
+            `../resources/debug_challenge/${debugState.currentChallenge.codepath}`
+          );
 
-        if (!codeResponse.ok) {
-          throw new Error(
-            `HTTP error loading code file! status: ${codeResponse.status}`
+          if (!codeResponse.ok) {
+            throw new Error(
+              `HTTP error loading code file! status: ${codeResponse.status}`
+            );
+          }
+
+          const codeContent = await codeResponse.text();
+
+          // Update the page with challenge data
+          updateChallengeInfo(
+            questionsData.questions,
+            debugState.currentChallenge
+          );
+
+          // Initialize Monaco Editor with the loaded code
+          await initializeEditor(codeContent);
+
+          const testStatusElement = document.getElementById(
+            "test-status"
+          ) as HTMLElement;
+          if (testStatusElement) testStatusElement.textContent = "Not Started";
+        } catch (error) {
+          addToTerminal(
+            `<div class="terminal-error">❌ Failed to load challenge: ${
+              (error as Error).message
+            }</div>`
           );
         }
-
-        const codeContent = await codeResponse.text();
-
-        // Update the page with challenge data
-        updateChallengeInfo(
-          questionsData.questions,
-          debugState.currentChallenge
-        );
-
-        // Initialize Monaco Editor with the loaded code
-        await initializeEditor(codeContent);
-
-        const testStatusElement = document.getElementById(
-          "test-status"
-        ) as HTMLElement;
-        if (testStatusElement) testStatusElement.textContent = "Not Started";
-      } catch (error) {
-        addToTerminal(
-          `<div class="terminal-error">❌ Failed to load challenge: ${
-            (error as Error).message
-          }</div>`
-        );
       }
     }
   }
@@ -105,9 +126,16 @@ function getQuestions(): any[] {
   if (!questionsData || !questionsData.questions || !questionsData.questions.questions) {
     return [];
   }
-  return Array.isArray(questionsData.questions.questions)
+  const allQuestions = Array.isArray(questionsData.questions.questions)
     ? questionsData.questions.questions
     : [];
+  
+  // Apply question limit if set
+  if (maxQuestionsToDisplay !== null && maxQuestionsToDisplay > 0) {
+    return allQuestions.slice(0, maxQuestionsToDisplay);
+  }
+  
+  return allQuestions;
 }
 
 // Function to auto-scroll terminal and center the latest content
@@ -156,16 +184,24 @@ function scrollToLastLineCenter(): void {
   // Get the last message
   const lastMessage = messages[messages.length - 1];
   const containerHeight = terminalContent.clientHeight;
+  const contentHeight = terminalOutput.scrollHeight;
 
-  // Calculate position to center the last message
+  // Calculate position to show the last message with extra bottom padding
   const messageTop = lastMessage.offsetTop;
   const messageHeight = lastMessage.offsetHeight;
+  const extraPadding = 50; // Extra padding to ensure full message is visible
+  
+  // Try to center, but ensure the last message is fully visible
   const centerOffset = containerHeight / 2 - messageHeight / 2;
   const targetScroll = Math.max(0, messageTop - centerOffset);
+  
+  // Make sure we don't scroll past the content, and add padding for the last message
+  const maxScroll = Math.max(0, contentHeight - containerHeight + extraPadding);
+  const finalScroll = Math.min(targetScroll, maxScroll);
 
-  // Smooth scroll to center the last message
+  // Smooth scroll to show the complete last message
   terminalContent.scrollTo({
-    top: targetScroll,
+    top: finalScroll,
     behavior: "smooth",
   });
 }
@@ -183,6 +219,10 @@ function addToTerminal(content: string): void {
   requestAnimationFrame(() => {
     setTimeout(() => {
       scrollToLastLineCenter();
+      // Double-check scrolling after a longer delay to ensure content is fully rendered
+      setTimeout(() => {
+        scrollToLastLineCenter();
+      }, 100);
     }, 50); // Small delay to ensure content is rendered
   });
 }
@@ -511,10 +551,10 @@ async function runCode(): Promise<void> {
         ) as HTMLElement;
         if (testStatusElement) testStatusElement.textContent = "Completed ✅";
         
-        // Show popup and move to next question
+        // Show popup and move to next question - increased delay to ensure terminal scrolling completes
         setTimeout(() => {
           showNextQuestionPopup();
-        }, 500); // Wait 500 milliseconds before showing popup
+        }, 1000); // Wait 1000 milliseconds before showing popup
 
       } else {
         addToTerminal(
@@ -539,6 +579,7 @@ async function runCode(): Promise<void> {
         }</div>`
       );
     }
+    addToTerminal(`<div class="terminal-log"><br></div>`);
 
     // Re-enable submit button
     if (submitBtn) submitBtn.disabled = false;
@@ -573,12 +614,10 @@ function resetChallenge(): void {
 function showNextQuestionPopup(): void {
   const nextQuizNumber = quizNumber + 2;
 
-  const maxQuiz = questionsData
-    ? questionsData.questions.questions.length
-    : 0;
+  const maxQuiz = getQuestions().length;
 
-  // Check if there are more questions available
-  if (questionsData && questionsData.questions.questions.length > nextQuizNumber && nextQuizNumber < maxQuiz) {
+  // Check if there are more questions available (use filtered questions length)
+  if (nextQuizNumber <= maxQuiz) {
     // Create popup HTML
     const popupHTML = `
       <div id="next-question-popup" style="
@@ -604,10 +643,7 @@ function showNextQuestionPopup(): void {
         ">
           <h2 style="color: #28a745; margin-bottom: 20px;">🎉 Congratulations!</h2>
           <p style="margin-bottom: 20px; color: #333;">
-            You've successfully completed this challenge!
-          </p>
-          <p style="margin-bottom: 30px; color: #666;">
-            Ready for the next challenge?
+            You've successfully completed this question!
           </p>
           <div>
             <button id="next-question-btn" style="
@@ -619,7 +655,8 @@ function showNextQuestionPopup(): void {
               cursor: pointer;
               margin-right: 10px;
               font-size: 16px;
-            ">Next Challenge</button>
+              transition: background 0.2s ease;
+            ">⏎ Next Question</button>
           </div>
         </div>
       </div>
@@ -632,10 +669,34 @@ function showNextQuestionPopup(): void {
     const nextBtn = document.getElementById('next-question-btn');
     const popup = document.getElementById('next-question-popup');
     
+    // Function to navigate to next question
+    const goToNextQuestion = () => {
+      document.removeEventListener('keydown', handleEnterKey);
+      // Preserve max parameter if it exists
+      const urlParams = new URLSearchParams(window.location.search);
+      const maxParam = urlParams.get('max');
+      const nextUrl = maxParam ? `?quiz=${nextQuizNumber}&max=${maxParam}` : `?quiz=${nextQuizNumber}`;
+      window.location.href = nextUrl;
+    };
+    
+    // Add Enter key listener
+    const handleEnterKey = (e: KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        goToNextQuestion();
+      }
+    };
+    
+    document.addEventListener('keydown', handleEnterKey);
+    
     if (nextBtn) {
-      nextBtn.addEventListener('click', () => {
-        // Navigate to next question
-        window.location.href = `?quiz=${nextQuizNumber}`;
+      nextBtn.addEventListener('click', goToNextQuestion);
+      
+      // Add hover effect
+      nextBtn.addEventListener('mouseenter', () => {
+        nextBtn.style.background = '#218838';
+      });
+      nextBtn.addEventListener('mouseleave', () => {
+        nextBtn.style.background = '#28a745';
       });
     }
     
@@ -643,6 +704,7 @@ function showNextQuestionPopup(): void {
     if (popup) {
       popup.addEventListener('click', (e) => {
         if (e.target === popup) {
+          document.removeEventListener('keydown', handleEnterKey);
           popup.remove();
         }
       });
@@ -698,7 +760,11 @@ function showNextQuestionPopup(): void {
     const restartBtn = document.getElementById('restart-btn');
     if (restartBtn) {
       restartBtn.addEventListener('click', () => {
-        window.location.href = '?quiz=0';
+        // Preserve max parameter if it exists
+        const urlParams = new URLSearchParams(window.location.search);
+        const maxParam = urlParams.get('max');
+        const restartUrl = maxParam ? `?quiz=1&max=${maxParam}` : '?quiz=1';
+        window.location.href = restartUrl;
       });
     }
   }

@@ -1,5 +1,72 @@
+/* Main typing area - centered and larger */
+.section-row {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+}
+
+.main-typing-area {
+    position: relative;
+    min-height: 100px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-grow: 1;
+}
+
+.code-display {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 1.3rem;
+    line-height: 1.8;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 2.5rem;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.6);
+    overflow-x: auto;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    pointer-events: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    position: relative;
+    min-height: 300px;
+    width: 100%;
+}
+
+.typing-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    resize: none;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: transparent;
+    caret-color: transparent;
+    z-index: 10;
+    padding: 2rem;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-touch-callout: none;
+}
+
+.typing-input:focus {
+    outline: none;
+    border: none;
+}
+
 .minigameUI_card {
-    width: min(720px, 92vw);
+    width: min(90vw, 1200px);
     border-radius: 18px;
     padding: 36px clamp(28px, 4vw, 40px);
     background:
@@ -70,39 +137,124 @@
     pointer-events: none;
 }
 
-/* Character highlighting styles */
+/* Character highlighting - simplified for continuous typing */
 .char {
     position: relative;
-    color: rgba(255, 255, 255, 0.6);
-    transition: all 0.2s ease;
+    color: rgba(255, 255, 255, 0.4);
+    transition: color 0.1s ease;
 }
 
 .char.typed-correct {
-    color: #4CAF50;
-    text-shadow: 
-        0 0 5px #4CAF50,
-        0 0 10px #4CAF50,
-        0 0 15px #4CAF50;
-    background: rgba(76, 175, 80, 0.1);
-    animation: glow 0.3s ease-in-out;
-}
-
-.char.current-char {
-    background: rgba(255, 255, 255, 0.2);
-    color: #ffffff;
-    animation: pulse 1s infinite;
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .char.typed-wrong {
-    color: #f44336;
-    background: rgba(244, 67, 54, 0.15);
-    text-shadow: 
-        0 0 5px #f44336,
-        0 0 10px #f44336,
-        0 0 15px #f44336;
-    animation: glow-red 0.3s ease-in-out;
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+    border-radius: 2px;
 }
 
+.char.current-char {
+    position: relative;
+}
+
+.char.current-char::after {
+    content: "_";
+    position: absolute;
+    right: 0px; /* Position cursor to the right of the character with more spacing */
+    top: 0;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 1em;
+    animation: cursor-blink 1s infinite;
+    display: inline;
+    z-index: 1; /* Ensure cursor appears above other elements */
+}
+
+/* Show cursor when typing area is focused */
+.typing-area-focused .char.current-char::after {
+    display: inline;
+}
+
+@keyframes cursor-blink {
+    0%, 50% {
+        opacity: 1;
+    }
+    51%, 100% {
+        opacity: 0;
+    }
+}
+
+/* Completion popup styles */
+.completion-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    font-family: 'Inter', sans-serif;
+}
+
+.completion-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    text-align: center;
+    max-width: 400px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    color: #333;
+}
+
+.completion-content h2 {
+    color: #4CAF50;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.completion-content p {
+    margin-bottom: 1.5rem;
+    opacity: 0.9;
+}
+
+.next-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background 0.2s ease;
+    margin-right: 0.5rem;
+}
+
+.next-btn:hover {
+    background: #45a049;
+}
+
+.restart-btn {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background 0.2s ease;
+}
+
+.restart-btn:hover {
+    background: #ff5252;
+}
+
+/* Remove old animations */
 @keyframes glow {
     0% {
         text-shadow: 0 0 5px #4CAF50;
