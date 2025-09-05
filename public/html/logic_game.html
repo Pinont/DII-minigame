@@ -16,37 +16,39 @@
   </header>
 </head>
 <body>
-  <div class="container">
-  <header class="level-header">
-    <h2 id="level-title">Level 1: IF ฝนตก → หยิบร่ม</h2>
-    <p id="level-description">ลากบล็อกเข้าไปใน Branch True/False ของ IF ได้</p>
-  </header>
-
-  <!-- Dropdown สำหรับเลือกข้อ -->
-  <label for="level-select">เลือกข้อ:</label>
-  <select id="level-select" onchange="selectLevel()" class="level-select">
-    <option value="0">Level 1</option>
-    <option value="1">Level 2</option>
-    <option value="2">Level 3</option>
-    <option value="3">Level 4</option>
-    <option value="4">Level 5</option>
-    <option value="5">Level 6</option>
-    <option value="6">Level 7</option>
-    <option value="7">Level 8</option>
-    <option value="8">Level 9</option>
-    <option value="9">Level 10</option>
-  </select>
-
-  <h3>บล็อกที่ให้</h3>
-  <ul id="blocks" class="list"></ul>
-
-  <h3>Flow หลัก</h3>
-  <ul id="dropzone" class="list"></ul>
-
-  <button onclick="checkAnswer()" class="btn_submitlogic">ตรวจคำตอบ</button>
-  <div class="result">
-    <p id="result"></p>
+  <div class="main-content">
+    <div class="container">
+      <header class="level-header">
+        <h2 id="level-title">Level 1: IF ฝนตก → หยิบร่ม</h2>
+        <p id="level-description">ลากบล็อกเข้าไปใน Branch True/False ของ IF ได้</p>
+      </header>
+    
+      <!-- Dropdown สำหรับเลือกข้อ -->
+      <label for="level-select">เลือกข้อ:</label>
+      <select id="level-select" onchange="selectLevel()" class="level-select">
+        <option value="0">Level 1</option>
+        <option value="1">Level 2</option>
+        <option value="2">Level 3</option>
+        <option value="3">Level 4</option>
+        <option value="4">Level 5</option>
+        <option value="5">Level 6</option>
+        <option value="6">Level 7</option>
+        <option value="7">Level 8</option>
+        <option value="8">Level 9</option>
+        <option value="9">Level 10</option>
+      </select>
+    
+      <h3>บล็อกที่ให้</h3>
+      <ul id="blocks" class="list"></ul>
+    
+      <h3>Flow หลัก</h3>
+      <ul id="dropzone" class="list"></ul>
+    
+      <button onclick="checkAnswer()" class="btn_submitlogic">ตรวจคำตอบ</button>
+      <div class="result">
+        <p id="result"></p>
+      </div>
+    </div>
   </div>
-</div>
 </body>
 </html>
