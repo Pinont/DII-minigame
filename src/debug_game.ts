@@ -53,6 +53,19 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Get URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   const maxParam = urlParams.get('max');
+  const skipParam = urlParams.get('skip');
+  
+  // Parse skip parameter (array of question numbers to skip)
+  let questionsToSkip: number[] = [];
+  if (skipParam) {
+    try {
+      // Remove brackets and split by comma, then convert to numbers (1-based)
+      const skipArray = skipParam.replace(/[\[\]]/g, '').split(',').map(s => parseInt(s.trim()));
+      questionsToSkip = skipArray.filter(n => !isNaN(n));
+    } catch (error) {
+      console.warn('Invalid skip parameter format:', skipParam);
+    }
+  }
   
   // Set maxQuestionsToDisplay from URL parameter or default to all questions
   if (maxParam && !isNaN(parseInt(maxParam)) && parseInt(maxParam) > 0) {
@@ -126,9 +139,23 @@ function getQuestions(): any[] {
   if (!questionsData || !questionsData.questions || !questionsData.questions.questions) {
     return [];
   }
-  const allQuestions = Array.isArray(questionsData.questions.questions)
+  let allQuestions = Array.isArray(questionsData.questions.questions)
     ? questionsData.questions.questions
     : [];
+  
+  // Apply skip filter first (remove questions by their original 1-based index)
+  const urlParams = new URLSearchParams(window.location.search);
+  const skipParam = urlParams.get('skip');
+  if (skipParam) {
+    try {
+      const skipArray = skipParam.replace(/[\[\]]/g, '').split(',').map(s => parseInt(s.trim()));
+      const questionsToSkip = skipArray.filter(n => !isNaN(n));
+      // Filter out questions based on their 1-based position
+      allQuestions = allQuestions.filter((_, index) => !questionsToSkip.includes(index + 1));
+    } catch (error) {
+      console.warn('Invalid skip parameter format:', skipParam);
+    }
+  }
   
   // Apply question limit if set
   if (maxQuestionsToDisplay !== null && maxQuestionsToDisplay > 0) {
@@ -672,10 +699,15 @@ function showNextQuestionPopup(): void {
     // Function to navigate to next question
     const goToNextQuestion = () => {
       document.removeEventListener('keydown', handleEnterKey);
-      // Preserve max parameter if it exists
+      // Preserve max and skip parameters if they exist
       const urlParams = new URLSearchParams(window.location.search);
       const maxParam = urlParams.get('max');
-      const nextUrl = maxParam ? `?quiz=${nextQuizNumber}&max=${maxParam}` : `?quiz=${nextQuizNumber}`;
+      const skipParam = urlParams.get('skip');
+      
+      let nextUrl = `?quiz=${nextQuizNumber}`;
+      if (maxParam) nextUrl += `&max=${maxParam}`;
+      if (skipParam) nextUrl += `&skip=${skipParam}`;
+      
       window.location.href = nextUrl;
     };
     
@@ -760,10 +792,15 @@ function showNextQuestionPopup(): void {
     const restartBtn = document.getElementById('restart-btn');
     if (restartBtn) {
       restartBtn.addEventListener('click', () => {
-        // Preserve max parameter if it exists
+        // Preserve max and skip parameters if they exist
         const urlParams = new URLSearchParams(window.location.search);
         const maxParam = urlParams.get('max');
-        const restartUrl = maxParam ? `?quiz=1&max=${maxParam}` : '?quiz=1';
+        const skipParam = urlParams.get('skip');
+        
+        let restartUrl = '?quiz=1';
+        if (maxParam) restartUrl += `&max=${maxParam}`;
+        if (skipParam) restartUrl += `&skip=${skipParam}`;
+        
         window.location.href = restartUrl;
       });
     }

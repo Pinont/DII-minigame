@@ -8,6 +8,7 @@ interface Question {
 
 // Configuration: Limit how many questions to display (default: all questions)
 let maxQuestionsToDisplay: number | null = null;
+let skipQuestions: number[] = [];
 
 // Game state
 let currentQuestion: Question | null = null;
@@ -23,6 +24,20 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Get URL parameters
   const urlParams = new URLSearchParams(window.location.search);
   const maxParam = urlParams.get('max');
+  const skipParam = urlParams.get('skip');
+  
+  // Parse skip parameter
+  if (skipParam) {
+    try {
+      skipQuestions = JSON.parse(skipParam);
+      if (!Array.isArray(skipQuestions)) {
+        skipQuestions = [];
+      }
+    } catch (e) {
+      console.warn('Invalid skip parameter format, expected JSON array');
+      skipQuestions = [];
+    }
+  }
   
   // Set maxQuestionsToDisplay from URL parameter or default to all questions
   if (maxParam && !isNaN(parseInt(maxParam)) && parseInt(maxParam) > 0) {
@@ -40,9 +55,14 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   // Validate quiz number
   if (quizNumber < 0 || quizNumber >= questionsToShow.length) {
-    // Preserve max parameter if it exists when redirecting
+    // Preserve max and skip parameters if they exist when redirecting
     const maxParam = urlParams.get('max');
-    const redirectUrl = maxParam ? `?quiz=1&max=${maxParam}` : "?quiz=1";
+    const skipParam = urlParams.get('skip');
+    
+    let redirectUrl = '?quiz=1';
+    if (maxParam) redirectUrl += `&max=${maxParam}`;
+    if (skipParam) redirectUrl += `&skip=${skipParam}`;
+    
     window.location.href = redirectUrl;
     return;
   }
@@ -72,12 +92,15 @@ async function loadQuestions() {
 }
 
 function getQuestionsToShow(): Question[] {
+  // Filter out skipped questions (convert to 0-based index)
+  let filteredQuestions = allQuestions.filter((_, index) => !skipQuestions.includes(index + 1));
+  
   // Apply question limit if set
   if (maxQuestionsToDisplay !== null && maxQuestionsToDisplay > 0) {
-    return allQuestions.slice(0, maxQuestionsToDisplay);
+    filteredQuestions = filteredQuestions.slice(0, maxQuestionsToDisplay);
   }
   
-  return allQuestions;
+  return filteredQuestions;
 }
 
 async function displayQuestion(question: Question) {
@@ -383,10 +406,15 @@ function showCompletionPopup() {
   // Handle restart button
   if (restartBtn) {
     restartBtn.addEventListener('click', () => {
-      // Preserve max parameter if it exists
+      // Preserve max and skip parameters if they exist
       const urlParams = new URLSearchParams(window.location.search);
       const maxParam = urlParams.get('max');
-      const restartUrl = maxParam ? `?quiz=1&max=${maxParam}` : "?quiz=1";
+      const skipParam = urlParams.get('skip');
+      
+      let restartUrl = '?quiz=1';
+      if (maxParam) restartUrl += `&max=${maxParam}`;
+      if (skipParam) restartUrl += `&skip=${skipParam}`;
+      
       window.location.href = restartUrl;
     });
     
@@ -428,10 +456,15 @@ function goToNextQuestion() {
   const questionsToShow = getQuestionsToShow();
   
   if (currentQuestionIndex < questionsToShow.length - 1) {
-    // Preserve max parameter if it exists
+    // Preserve max and skip parameters if they exist
     const urlParams = new URLSearchParams(window.location.search);
     const maxParam = urlParams.get('max');
-    const nextUrl = maxParam ? `?quiz=${nextQuizNumber}&max=${maxParam}` : `?quiz=${nextQuizNumber}`;
+    const skipParam = urlParams.get('skip');
+    
+    let nextUrl = `?quiz=${nextQuizNumber}`;
+    if (maxParam) nextUrl += `&max=${maxParam}`;
+    if (skipParam) nextUrl += `&skip=${skipParam}`;
+    
     window.location.href = nextUrl;
   }
 }
