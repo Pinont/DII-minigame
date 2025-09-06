@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (debugButton) {
     debugButton.addEventListener("click", (e) => {
       console.log("Starting debug game");
-      window.location.href = "./debug_game.html?quiz=1&max=3&skip=[2,3,4]";
+      window.location.href = "./debug_game.html?quiz=1&max=3&skip=[2,3,4,5]";
     });
   }
 

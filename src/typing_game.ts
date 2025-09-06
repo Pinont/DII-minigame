@@ -51,15 +51,21 @@ document.addEventListener("DOMContentLoaded", async () => {
   
   // Get quiz parameter from URL
   let quizParam = urlParams.get('quiz');
-  let quizNumber = quizParam ? parseInt(quizParam) - 1 : 0; // Convert to 0-based index
+  let originalQuizNumber = quizParam ? parseInt(quizParam) - 1 : 0; // Convert to 0-based index
   
-  // Validate quiz number
-  if (quizNumber < 0 || quizNumber >= questionsToShow.length) {
-    // Preserve max and skip parameters if they exist when redirecting
+  // Validate original quiz number and find it in filtered questions
+  if (originalQuizNumber < 0 || originalQuizNumber >= allQuestions.length || skipQuestions.includes(originalQuizNumber + 1)) {
+    // Redirect to first available question
     const maxParam = urlParams.get('max');
     const skipParam = urlParams.get('skip');
     
-    let redirectUrl = '?quiz=1';
+    // Find first non-skipped question
+    let firstAvailableQuiz = 1;
+    while (firstAvailableQuiz <= allQuestions.length && skipQuestions.includes(firstAvailableQuiz)) {
+      firstAvailableQuiz++;
+    }
+    
+    let redirectUrl = `?quiz=${firstAvailableQuiz}`;
     if (maxParam) redirectUrl += `&max=${maxParam}`;
     if (skipParam) redirectUrl += `&skip=${skipParam}`;
     
@@ -67,7 +73,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
   
-  currentQuestionIndex = quizNumber;
+  // Find the index of this question in the filtered array
+  const targetQuestion = allQuestions[originalQuizNumber];
+  currentQuestionIndex = questionsToShow.findIndex(q => q.id === targetQuestion.id);
   await displayQuestion(questionsToShow[currentQuestionIndex]);
   
   setupEventListeners();
@@ -452,20 +460,33 @@ function showCompletionPopup() {
 }
 
 function goToNextQuestion() {
-  const nextQuizNumber = currentQuestionIndex + 2; // Convert to 1-based for URL
   const questionsToShow = getQuestionsToShow();
   
   if (currentQuestionIndex < questionsToShow.length - 1) {
-    // Preserve max and skip parameters if they exist
-    const urlParams = new URLSearchParams(window.location.search);
-    const maxParam = urlParams.get('max');
-    const skipParam = urlParams.get('skip');
+    // Get the current question from filtered list
+    const currentFilteredQuestion = questionsToShow[currentQuestionIndex];
     
-    let nextUrl = `?quiz=${nextQuizNumber}`;
-    if (maxParam) nextUrl += `&max=${maxParam}`;
-    if (skipParam) nextUrl += `&skip=${skipParam}`;
+    // Find this question's original index in allQuestions
+    const currentOriginalIndex = allQuestions.findIndex(q => q.id === currentFilteredQuestion.id);
     
-    window.location.href = nextUrl;
+    // Find the next non-skipped question
+    let nextOriginalIndex = currentOriginalIndex + 1;
+    while (nextOriginalIndex < allQuestions.length && skipQuestions.includes(nextOriginalIndex + 1)) {
+      nextOriginalIndex++;
+    }
+    
+    if (nextOriginalIndex < allQuestions.length) {
+      // Preserve max and skip parameters if they exist
+      const urlParams = new URLSearchParams(window.location.search);
+      const maxParam = urlParams.get('max');
+      const skipParam = urlParams.get('skip');
+      
+      let nextUrl = `?quiz=${nextOriginalIndex + 1}`; // Convert to 1-based for URL
+      if (maxParam) nextUrl += `&max=${maxParam}`;
+      if (skipParam) nextUrl += `&skip=${skipParam}`;
+      
+      window.location.href = nextUrl;
+    }
   }
 }
 

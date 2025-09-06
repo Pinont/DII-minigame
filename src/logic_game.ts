@@ -470,20 +470,33 @@ function showCompletionPopup() {
 
 // Function to navigate to next level
 function goToNextLevel() {
-  const nextLevelNumber = currentLevel + 2; // Convert to 1-based for URL
   const availableLevels = getLevels();
   
   if (currentLevel < availableLevels.length - 1) {
-    // Preserve max and skip parameters if they exist
-    const urlParams = new URLSearchParams(window.location.search);
-    const maxParam = urlParams.get('max');
-    const skipParam = urlParams.get('skip');
+    // Get the current level from filtered list
+    const currentFilteredLevel = availableLevels[currentLevel];
     
-    let nextUrl = `?quiz=${nextLevelNumber}`;
-    if (maxParam) nextUrl += `&max=${maxParam}`;
-    if (skipParam) nextUrl += `&skip=${skipParam}`;
+    // Find this level's original index in the full levels array
+    const currentOriginalIndex = levels.findIndex(level => level.title === currentFilteredLevel.title);
     
-    window.location.href = nextUrl;
+    // Find the next non-skipped level
+    let nextOriginalIndex = currentOriginalIndex + 1;
+    while (nextOriginalIndex < levels.length && skipQuestions.includes(nextOriginalIndex + 1)) {
+      nextOriginalIndex++;
+    }
+    
+    if (nextOriginalIndex < levels.length) {
+      // Preserve max and skip parameters if they exist
+      const urlParams = new URLSearchParams(window.location.search);
+      const maxParam = urlParams.get('max');
+      const skipParam = urlParams.get('skip');
+      
+      let nextUrl = `?quiz=${nextOriginalIndex + 1}`; // Convert to 1-based for URL
+      if (maxParam) nextUrl += `&max=${maxParam}`;
+      if (skipParam) nextUrl += `&skip=${skipParam}`;
+      
+      window.location.href = nextUrl;
+    }
   }
 }
 
@@ -518,23 +531,39 @@ function initializeGame() {
     
     // Set current level from quiz parameter
     if (quizParam && !isNaN(parseInt(quizParam))) {
-      const quizNumber = parseInt(quizParam) - 1; // Convert to 0-based index
-      const availableLevels = getLevels();
+      const originalQuizNumber = parseInt(quizParam) - 1; // Convert to 0-based index
       
-      // Validate quiz number
-      if (quizNumber >= 0 && quizNumber < availableLevels.length) {
-        currentLevel = quizNumber;
-      } else {
-        // Redirect to valid quiz number
+      // Check if this quiz number is valid and not skipped
+      if (originalQuizNumber < 0 || originalQuizNumber >= levels.length || skipQuestions.includes(originalQuizNumber + 1)) {
+        // Redirect to first available question
         const maxParam = urlParams.get('max');
         const skipParam = urlParams.get('skip');
         
-        let redirectUrl = '?quiz=1';
+        // Find first non-skipped level
+        let firstAvailableQuiz = 1;
+        while (firstAvailableQuiz <= levels.length && skipQuestions.includes(firstAvailableQuiz)) {
+          firstAvailableQuiz++;
+        }
+        
+        let redirectUrl = `?quiz=${firstAvailableQuiz}`;
         if (maxParam) redirectUrl += `&max=${maxParam}`;
         if (skipParam) redirectUrl += `&skip=${skipParam}`;
         
         window.location.href = redirectUrl;
         return;
+      }
+      
+      // Find the index of this level in the filtered array
+      const availableLevels = getLevels();
+      const targetLevel = levels[originalQuizNumber];
+      currentLevel = availableLevels.findIndex((level, index) => {
+        // Compare by content since levels don't have unique IDs
+        return level.title === targetLevel.title;
+      });
+      
+      // Fallback if not found (shouldn't happen)
+      if (currentLevel === -1) {
+        currentLevel = 0;
       }
     }
     

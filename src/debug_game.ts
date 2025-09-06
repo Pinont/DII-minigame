@@ -75,14 +75,33 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
   
   // get param quiz=?
-  quizNumber = getQuiz();
-  if (quizNumber < 0 || quizNumber >= getQuestions().length) {
-    // Preserve max parameter if it exists when redirecting
+  const originalQuizNumber = getQuiz(); // This is 0-based index from URL
+  
+  // Check if this quiz number is valid and not skipped
+  if (originalQuizNumber < 0 || originalQuizNumber >= (questionsData?.questions.questions.length || 0) || questionsToSkip.includes(originalQuizNumber + 1)) {
+    // Redirect to first available question
     const urlParams = new URLSearchParams(window.location.search);
     const maxParam = urlParams.get('max');
-    const redirectUrl = maxParam ? `?quiz=1&max=${maxParam}` : "?quiz=1";
+    const skipParam = urlParams.get('skip');
+    
+    // Find first non-skipped question
+    let firstAvailableQuiz = 1;
+    while (firstAvailableQuiz <= (questionsData?.questions.questions.length || 0) && questionsToSkip.includes(firstAvailableQuiz)) {
+      firstAvailableQuiz++;
+    }
+    
+    let redirectUrl = `?quiz=${firstAvailableQuiz}`;
+    if (maxParam) redirectUrl += `&max=${maxParam}`;
+    if (skipParam) redirectUrl += `&skip=${skipParam}`;
+    
     window.location.href = redirectUrl;
+    return;
   }
+  
+  // Find the index of this question in the filtered array
+  const filteredQuestions = getQuestions();
+  const targetQuestion = questionsData?.questions.questions[originalQuizNumber];
+  quizNumber = filteredQuestions.findIndex(q => q.id === targetQuestion?.id);
 
   // Load challenge data
   if (questionsData && questionsData.questions.questions.length > 0) {
@@ -639,12 +658,37 @@ function resetChallenge(): void {
 
 // Function to show popup and navigate to next question
 function showNextQuestionPopup(): void {
-  const nextQuizNumber = quizNumber + 2;
+  // Get the current question from filtered list
+  const filteredQuestions = getQuestions();
+  const currentFilteredQuestion = filteredQuestions[quizNumber];
+  
+  // Find this question's original index in the full questions array
+  const allQuestions = questionsData?.questions.questions || [];
+  const currentOriginalIndex = allQuestions.findIndex(q => q.id === currentFilteredQuestion.id);
+  
+  // Find the next non-skipped question
+  const urlParams = new URLSearchParams(window.location.search);
+  const skipParam = urlParams.get('skip');
+  let questionsToSkip: number[] = [];
+  if (skipParam) {
+    try {
+      const skipArray = skipParam.replace(/[\[\]]/g, '').split(',').map(s => parseInt(s.trim()));
+      questionsToSkip = skipArray.filter(n => !isNaN(n));
+    } catch (error) {
+      console.warn('Invalid skip parameter format:', skipParam);
+    }
+  }
+  
+  let nextOriginalIndex = currentOriginalIndex + 1;
+  while (nextOriginalIndex < allQuestions.length && questionsToSkip.includes(nextOriginalIndex + 1)) {
+    nextOriginalIndex++;
+  }
+  
+  const nextQuizNumber = nextOriginalIndex + 1; // Convert to 1-based for URL
+  const maxQuiz = filteredQuestions.length;
 
-  const maxQuiz = getQuestions().length;
-
-  // Check if there are more questions available (use filtered questions length)
-  if (nextQuizNumber <= maxQuiz) {
+  // Check if there are more questions available
+  if (nextOriginalIndex < allQuestions.length && quizNumber < maxQuiz - 1) {
     // Create popup HTML
     const popupHTML = `
       <div id="next-question-popup" style="
