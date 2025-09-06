@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (debugButton) {
     debugButton.addEventListener("click", (e) => {
       console.log("Starting debug game");
-      window.location.href = "./debug_game.html?quiz=1";
+      window.location.href = "./debug_game.html?quiz=1&max=3&skip=[2,3,4]";
     });
   }
 
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (typingButton) {
     typingButton.addEventListener("click", (e) => {
       console.log("Starting typing game");
-      window.location.href = "./typing_game.html?quiz=1";
+      window.location.href = "./typing_game.html?quiz=1&max=3&skip=[2,3,4]";
     });
   }
 
@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (logicButton) {
     logicButton.addEventListener("click", (e) => {
       console.log("Starting logic game");
-      window.location.href = "./logic_game.html?quiz=1";
+      window.location.href = "./logic_game.html?quiz=1&max=3&skip=[1,2,4,6]";
     });
   }
 });
